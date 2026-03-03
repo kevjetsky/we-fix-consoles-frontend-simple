@@ -10,7 +10,6 @@
     "clean": "next clean"
   },
   "dependencies": {
-    "@google/genai": "^1.43.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.576.0",
     "motion": "^12.34.4",
