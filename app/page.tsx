@@ -15,7 +15,7 @@ export default function Home() {
             <span className="text-primary">Fast &amp; Reliable.</span>
           </h2>
           <p className="text-text-muted dark:text-slate-400 text-base md:text-xl leading-relaxed max-w-[320px] md:max-w-xl mb-8">
-            Expert repairs with a 90-day warranty. Free mobile service directly to you. No repair, no fee guarantee.
+            Expert mobile console repair for PlayStation 5 (PS5), Xbox Series X/S, and Nintendo Switch in Houston, TX. We come to you with a 90-day warranty and a no-fix, no-fee guarantee.
           </p>
           <div className="flex flex-col md:flex-row w-full max-w-sm md:max-w-2xl gap-3 md:gap-6 justify-center">
             <Link href="/services" className="w-full h-14 bg-gradient-to-r from-primary via-cyan-400 to-primary animate-gradient-x hover:brightness-110 active:scale-[0.98] transition-all text-white rounded-xl font-bold text-base shadow-lg shadow-primary/25 flex items-center justify-center gap-2">
@@ -73,7 +73,7 @@ export default function Home() {
               </div>
               <div className="flex-1 min-w-0 flex flex-col text-left">
                 <h4 className="text-slate-900 dark:text-slate-100 text-base font-bold leading-normal truncate">HDMI Port Replacement</h4>
-                <p className="text-slate-500 dark:text-slate-400 text-xs font-medium">PS5, Xbox Series X</p>
+                <p className="text-slate-500 dark:text-slate-400 text-xs font-medium truncate">Fix "No Signal" or Black Screen</p>
               </div>
               <div className="shrink-0 flex flex-col items-end">
                 <span className="text-slate-900 dark:text-slate-100 text-base font-bold">$95.00</span>
@@ -86,8 +86,8 @@ export default function Home() {
                 <Fan className="w-6 h-6" />
               </div>
               <div className="flex-1 min-w-0 flex flex-col text-left">
-                <h4 className="text-slate-900 dark:text-slate-100 text-base font-bold leading-normal truncate">Deep Cleaning</h4>
-                <p className="text-slate-500 dark:text-slate-400 text-xs font-medium">Deep cleaning &amp; Thermal paste</p>
+                <h4 className="text-slate-900 dark:text-slate-100 text-base font-bold leading-normal truncate">Deep Clean & Thermal Paste</h4>
+                <p className="text-slate-500 dark:text-slate-400 text-xs font-medium truncate">Fix overheating and loud fan noise</p>
               </div>
               <div className="shrink-0 flex flex-col items-end">
                 <span className="text-slate-900 dark:text-slate-100 text-base font-bold">$69.99</span>
@@ -100,8 +100,8 @@ export default function Home() {
                 <Joystick className="w-6 h-6" />
               </div>
               <div className="flex-1 min-w-0 flex flex-col text-left">
-                <h4 className="text-slate-900 dark:text-slate-100 text-base font-bold leading-normal truncate">Full Controller Refresh</h4>
-                <p className="text-slate-500 dark:text-slate-400 text-xs font-medium">Both sticks + cleaning</p>
+                <h4 className="text-slate-900 dark:text-slate-100 text-base font-bold leading-normal truncate">Stick Drift Repair</h4>
+                <p className="text-slate-500 dark:text-slate-400 text-xs font-medium truncate">Fix stick drift + controller cleaning</p>
               </div>
               <div className="shrink-0 flex flex-col items-end">
                 <span className="text-slate-900 dark:text-slate-100 text-base font-bold">$35.00</span>
@@ -113,8 +113,8 @@ export default function Home() {
 
         <section className="px-5 py-6 md:py-12 w-full max-w-4xl mx-auto">
           <div className="bg-gradient-to-br from-primary to-blue-700 rounded-2xl p-6 md:p-12 text-white text-center shadow-lg shadow-blue-500/20">
-            <h3 className="text-xl md:text-3xl font-bold mb-2 md:mb-4">Unsure what&apos;s wrong?</h3>
-            <p className="text-blue-100 text-sm md:text-lg mb-6 md:mb-8 max-w-xl mx-auto">Our experts can diagnose your console issues quickly.</p>
+            <h3 className="text-xl md:text-3xl font-bold mb-2 md:mb-4">PlayStation, Xbox, or Switch not working?</h3>
+            <p className="text-blue-100 text-sm md:text-lg mb-6 md:mb-8 max-w-xl mx-auto">Our experts can diagnose your console issues quickly, from HDMI ports to crashing and overheating.</p>
             <a href="tel:+15055243280" className="w-full md:w-auto md:px-12 h-12 md:h-14 bg-white text-primary font-bold rounded-xl flex items-center justify-center gap-2 hover:bg-blue-50 transition-colors mx-auto text-base">
               <Phone className="w-5 h-5" />
               Call for Free Advice
