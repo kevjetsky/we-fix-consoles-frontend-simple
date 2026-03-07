@@ -8,7 +8,7 @@ import { ArrowRight, MessageSquare, ShieldCheck, Truck, Banknote, Phone, Cable, 
 export default function Home() {
   return (
     <>
-      <main className="flex-1 overflow-y-auto pb-24 scrollbar-hide flex flex-col items-center w-full">
+      <main className="flex-1 overflow-y-auto scrollbar-hide flex flex-col items-center w-full">
         <section className="px-5 pt-8 md:pt-20 pb-10 flex flex-col items-center text-center w-full max-w-4xl mx-auto">
           <h2 className="text-4xl md:text-6xl font-extrabold text-text-main dark:text-white leading-tight mb-4 tracking-tight pt-4">
             We Fix Consoles.<br />
@@ -111,7 +111,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="px-5 py-6 mb-4 md:py-12 w-full max-w-4xl mx-auto">
+        <section className="px-5 py-6 md:py-12 w-full max-w-4xl mx-auto">
           <div className="bg-gradient-to-br from-primary to-blue-700 rounded-2xl p-6 md:p-12 text-white text-center shadow-lg shadow-blue-500/20">
             <h3 className="text-xl md:text-3xl font-bold mb-2 md:mb-4">Unsure what&apos;s wrong?</h3>
             <p className="text-blue-100 text-sm md:text-lg mb-6 md:mb-8 max-w-xl mx-auto">Our experts can diagnose your console issues quickly.</p>
