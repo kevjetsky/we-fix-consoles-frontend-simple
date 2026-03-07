@@ -11,7 +11,7 @@ export default function Services() {
           <Link href="/" className="flex size-10 shrink-0 items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-900 dark:text-slate-100">
             <ArrowLeft className="w-6 h-6" />
           </Link>
-          <h2 className="text-slate-900 dark:text-slate-100 text-lg md:text-xl font-bold leading-tight tracking-[-0.015em] flex-1 text-center pr-10">We-Fix-Consoles</h2>
+          <h2 className="text-slate-900 dark:text-slate-100 text-lg md:text-xl font-bold leading-tight tracking-[-0.015em] flex-1 text-center pr-10">WE FIX CONSOLES</h2>
         </div>
       </header>
 

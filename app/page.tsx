@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, MessageSquare, ShieldCheck, Truck, Banknote, Phone, Cable, Fan, Joystick } from 'lucide-react';
+import { ArrowRight, MessageSquare, ShieldCheck, Truck, Banknote, Phone, Cable, Fan, Joystick, Facebook, Instagram } from 'lucide-react';
 
 
 export default function Home() {
@@ -11,7 +11,7 @@ export default function Home() {
       <main className="flex-1 overflow-y-auto scrollbar-hide flex flex-col items-center w-full">
         <section className="px-5 pt-8 md:pt-20 pb-10 flex flex-col items-center text-center w-full max-w-4xl mx-auto">
           <h2 className="text-4xl md:text-6xl font-extrabold text-text-main dark:text-white leading-tight mb-4 tracking-tight pt-4">
-            We Fix Consoles.<br />
+            WE FIX CONSOLES<br />
             <span className="text-primary">Fast &amp; Reliable.</span>
           </h2>
           <p className="text-text-muted dark:text-slate-400 text-base md:text-xl leading-relaxed max-w-[320px] md:max-w-xl mb-8">
@@ -22,7 +22,7 @@ export default function Home() {
               View Services
               <ArrowRight className="w-5 h-5" />
             </Link>
-            <a href="sms:+15055243280" className="w-full h-14 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 active:scale-[0.98] transition-all text-text-main dark:text-white rounded-xl font-bold text-base flex items-center justify-center gap-2">
+            <a href="sms:+15055243280?body=Hi!%20I'd%20like%20a%20repair%20quote.%20My%20console%20is%20a%20[Console%20Model]%20and%20the%20problem%20is%20[Describe%20Issue]." className="w-full h-14 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 active:scale-[0.98] transition-all text-text-main dark:text-white rounded-xl font-bold text-base flex items-center justify-center gap-2">
               <MessageSquare className="w-5 h-5 text-primary" />
               Get SMS Quote
             </a>
@@ -122,7 +122,20 @@ export default function Home() {
           </div>
         </section>
       </main>
-      <footer className="w-full py-6 bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 flex flex-col items-center justify-center mt-auto">
+      <footer className="w-full py-8 bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 flex flex-col items-center justify-center mt-auto">
+        <div className="flex items-center gap-6 mb-4">
+          <a href="https://facebook.com/we.fix.consoles" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-primary transition-colors" aria-label="Facebook">
+            <Facebook className="w-6 h-6" />
+          </a>
+          <a href="https://instagram.com/we.fix.consoles" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-primary transition-colors" aria-label="Instagram">
+            <Instagram className="w-6 h-6" />
+          </a>
+          <a href="https://tiktok.com/@we.fix.consoles" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-primary transition-colors" aria-label="TikTok">
+            <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+            </svg>
+          </a>
+        </div>
         <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
           &copy; {new Date().getFullYear()} We-Fix-Consoles. All rights reserved.
         </p>
