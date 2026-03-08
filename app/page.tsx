@@ -111,6 +111,19 @@ export default function Home() {
           </div>
         </section>
 
+        <section className="px-5 py-6 md:py-10 w-full max-w-7xl mx-auto">
+          <div className="bg-slate-50 dark:bg-slate-800/50 rounded-3xl p-8 md:p-12 border border-slate-100 dark:border-slate-800 flex flex-col items-center text-center shadow-sm">
+            <h3 className="text-2xl md:text-4xl font-extrabold text-text-main dark:text-white mb-4">Level Up Your Console Knowledge</h3>
+            <p className="text-slate-500 dark:text-slate-400 text-sm md:text-lg max-w-2xl mb-8">
+              Check out our latest guides, repair tips, and gaming news on the We-Fix-Consoles blog.
+            </p>
+            <Link href="/blog" className="h-12 md:h-14 px-8 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 active:scale-[0.98] transition-all text-text-main dark:text-white rounded-xl font-bold text-base flex items-center justify-center gap-2 shadow-sm">
+              Visit our Blog
+              <ArrowRight className="w-5 h-5 text-primary" />
+            </Link>
+          </div>
+        </section>
+
         <section className="px-5 py-6 md:py-12 w-full max-w-4xl mx-auto">
           <div className="bg-gradient-to-br from-primary to-blue-700 rounded-2xl p-6 md:p-12 text-white text-center shadow-lg shadow-blue-500/20">
             <h3 className="text-xl md:text-3xl font-bold mb-2 md:mb-4">PlayStation, Xbox, or Switch not working?</h3>
