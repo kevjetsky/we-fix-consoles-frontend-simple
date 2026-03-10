@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Fredoka } from 'next/font/google';
 import './globals.css'; // Global styles
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 const fredoka = Fredoka({
   subsets: ['latin'],
@@ -78,9 +79,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="bg-background-light dark:bg-background-dark text-text-main dark:text-white font-display antialiased overflow-x-hidden min-h-[100dvh]" suppressHydrationWarning>
+
         <div className="relative flex flex-col min-h-screen w-full bg-white dark:bg-slate-900 overflow-hidden">
           {children}
         </div>
+        <GoogleAnalytics gaId="G-XCPXYK6RD2" />
       </body>
     </html>
   );
