@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { ArrowLeft, Stethoscope, Cable, Cpu, Wind, Fan, Gamepad2, Joystick, ShieldCheck, Calendar } from 'lucide-react';
+import { ServiceCard } from '@/components/ServiceCard';
 
 export default function Services() {
   return (
@@ -22,105 +23,65 @@ export default function Services() {
         </div>
 
         <div className="space-y-3 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 lg:gap-6">
-          <div className="group flex items-center gap-4 bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-all active:scale-[0.98]">
-            <div className="flex items-center justify-center rounded-lg bg-primary/10 text-primary shrink-0 size-12 group-hover:bg-primary group-hover:text-white transition-colors">
-              <Stethoscope className="w-6 h-6" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <h3 className="text-slate-900 dark:text-slate-100 text-base font-bold leading-normal truncate">Diagnostic</h3>
-              <p className="text-slate-500 dark:text-slate-400 text-xs font-medium">Issue identification</p>
-            </div>
-            <div className="shrink-0 flex flex-col items-end">
-              <div className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-3 py-1 rounded-full text-xs font-bold">
-                FREE
-              </div>
-              <span className="text-[10px] text-primary bg-primary/10 px-2 py-0.5 rounded-full mt-1 font-bold">Same Day</span>
-            </div>
-          </div>
+          <ServiceCard
+            icon={Stethoscope}
+            title="Diagnostic"
+            description="Issue identification"
+            price={<div className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-3 py-1 rounded-full text-xs font-bold">FREE</div>}
+            turnaround="Same Day"
+          />
 
-          <div className="group flex items-center gap-4 bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-all active:scale-[0.98]">
-            <div className="flex items-center justify-center rounded-lg bg-primary/10 text-primary shrink-0 size-12 group-hover:bg-primary group-hover:text-white transition-colors">
-              <Cable className="w-6 h-6" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <h3 className="text-slate-900 dark:text-slate-100 text-base font-bold leading-normal truncate">HDMI Port Repair</h3>
-              <p className="text-slate-500 dark:text-slate-400 text-xs font-medium">Standard replacement</p>
-            </div>
-            <div className="shrink-0 flex flex-col items-end">
-              <p className="text-slate-900 dark:text-slate-100 text-base font-bold">$95.00</p>
-              <span className="text-[10px] text-primary bg-primary/10 px-2 py-0.5 rounded-full mt-1 font-bold">Same Day</span>
-            </div>
-          </div>
+          <ServiceCard
+            icon={Cable}
+            title="HDMI Port Repair"
+            description="Standard replacement"
+            price="$79.99"
+            turnaround="Same Day"
+          />
 
-          <div className="group flex items-center gap-4 bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-all active:scale-[0.98]">
-            <div className="flex items-center justify-center rounded-lg bg-primary/10 text-primary shrink-0 size-12 group-hover:bg-primary group-hover:text-white transition-colors">
-              <Cpu className="w-6 h-6" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <h3 className="text-slate-900 dark:text-slate-100 text-base font-bold leading-normal truncate">HDMI Port Repair (Advanced)</h3>
-              <p className="text-primary text-xs font-medium">Trace/pads repair included</p>
-            </div>
-            <div className="shrink-0 flex flex-col items-end">
-              <p className="text-slate-900 dark:text-slate-100 text-base font-bold">$120.00</p>
-              <span className="text-[10px] text-primary bg-primary/10 px-2 py-0.5 rounded-full mt-1 font-bold">1-2 Days</span>
-            </div>
-          </div>
+          <ServiceCard
+            icon={Cpu}
+            title="HDMI Port Repair (Advanced)"
+            description="Trace/pads repair included"
+            price="$89.99"
+            turnaround="1-2 Days"
+            descriptionHighlight
+          />
 
-          <div className="group flex items-center gap-4 bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-all active:scale-[0.98]">
-            <div className="flex items-center justify-center rounded-lg bg-primary/10 text-primary shrink-0 size-12 group-hover:bg-primary group-hover:text-white transition-colors">
-              <Wind className="w-6 h-6" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <h3 className="text-slate-900 dark:text-slate-100 text-base font-bold leading-normal truncate">Dust Removal</h3>
-              <p className="text-slate-500 dark:text-slate-400 text-xs font-medium">Internal air cleaning</p>
-            </div>
-            <div className="shrink-0 flex flex-col items-end">
-              <p className="text-slate-900 dark:text-slate-100 text-base font-bold">$19.99</p>
-              <span className="text-[10px] text-primary bg-primary/10 px-2 py-0.5 rounded-full mt-1 font-bold">Same Day</span>
-            </div>
-          </div>
+          <ServiceCard
+            icon={Wind}
+            title="Dust Removal"
+            description="Internal air cleaning"
+            price="$19.99"
+            turnaround="Same Day"
+          />
 
-          <div className="group flex items-center gap-4 bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-all active:scale-[0.98]">
-            <div className="flex items-center justify-center rounded-lg bg-primary/10 text-primary shrink-0 size-12 group-hover:bg-primary group-hover:text-white transition-colors">
-              <Fan className="w-6 h-6" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <h3 className="text-slate-900 dark:text-slate-100 text-base font-bold leading-normal">Deep Clean + Thermal Paste</h3>
-              <p className="text-slate-500 dark:text-slate-400 text-xs font-medium">Liquid Metal Application</p>
-            </div>
-            <div className="shrink-0 flex flex-col items-end">
-              <p className="text-slate-900 dark:text-slate-100 text-base font-bold">$69.99</p>
-              <span className="text-[10px] text-primary bg-primary/10 px-2 py-0.5 rounded-full mt-1 font-bold">Same Day</span>
-            </div>
-          </div>
+          <ServiceCard
+            icon={Fan}
+            title="Deep Clean + Thermal Paste"
+            description="Liquid Metal Application"
+            price="$69.99"
+            turnaround="Same Day"
+            titleTruncate={false}
+          />
 
-          <div className="group flex items-center gap-4 bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-all active:scale-[0.98]">
-            <div className="flex items-center justify-center rounded-lg bg-primary/10 text-primary shrink-0 size-12 group-hover:bg-primary group-hover:text-white transition-colors">
-              <Gamepad2 className="w-6 h-6" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <h3 className="text-slate-900 dark:text-slate-100 text-base font-bold leading-normal truncate">Stick Drift Repair</h3>
-              <p className="text-slate-500 dark:text-slate-400 text-xs font-medium">Single analog stick</p>
-            </div>
-            <div className="shrink-0 flex flex-col items-end">
-              <p className="text-slate-900 dark:text-slate-100 text-base font-bold">$19.99</p>
-              <span className="text-[10px] text-primary bg-primary/10 px-2 py-0.5 rounded-full mt-1 font-bold">Same Day</span>
-            </div>
-          </div>
+          <ServiceCard
+            icon={Gamepad2}
+            title="Stick Drift Repair"
+            description="Single analog stick"
+            price="$19.99"
+            turnaround="Same Day"
+          />
 
-          <div className="group flex items-center gap-4 bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-all active:scale-[0.98]">
-            <div className="flex items-center justify-center rounded-lg bg-primary/10 text-primary shrink-0 size-12 group-hover:bg-primary group-hover:text-white transition-colors">
-              <Joystick className="w-6 h-6" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <h3 className="text-slate-900 dark:text-slate-100 text-base font-bold leading-normal">Full Controller Refresh</h3>
-              <p className="text-primary text-xs font-medium">Both sticks + cleaning</p>
-            </div>
-            <div className="shrink-0 flex flex-col items-end">
-              <p className="text-slate-900 dark:text-slate-100 text-base font-bold">$35.00</p>
-              <span className="text-[10px] text-primary bg-primary/10 px-2 py-0.5 rounded-full mt-1 font-bold">Same Day</span>
-            </div>
-          </div>
+          <ServiceCard
+            icon={Joystick}
+            title="Full Controller Refresh"
+            description="Both sticks + cleaning"
+            price="$35.00"
+            turnaround="Same Day"
+            titleTruncate={false}
+            descriptionHighlight
+          />
         </div>
 
         <div className="mt-8 p-5 bg-primary/5 rounded-xl border border-primary/10">

@@ -3,6 +3,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, MessageSquare, ShieldCheck, Truck, Banknote, Phone, Cable, Fan, Joystick, Facebook, Instagram } from 'lucide-react';
+import { ServiceCard } from '@/components/ServiceCard';
+import { GoogleReviewButton } from '@/components/GoogleReviewButton';
 
 
 export default function Home() {
@@ -27,6 +29,8 @@ export default function Home() {
               Get SMS Quote
             </a>
           </div>
+
+          <GoogleReviewButton />
         </section>
 
         <section className="px-5 py-6 md:py-10 w-full max-w-7xl mx-auto">
@@ -67,47 +71,35 @@ export default function Home() {
             <Link href="/services" className="text-primary text-sm md:text-base font-semibold hover:text-primary-dark">View all</Link>
           </div>
           <div className="space-y-3 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 lg:gap-6">
-            <Link href="/services" className="group flex items-center gap-4 bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-all active:scale-[0.98]">
-              <div className="flex items-center justify-center rounded-lg bg-primary/10 text-primary shrink-0 size-12 group-hover:bg-primary group-hover:text-white transition-colors">
-                <Cable className="w-6 h-6" />
-              </div>
-              <div className="flex-1 min-w-0 flex flex-col text-left">
-                <h4 className="text-slate-900 dark:text-slate-100 text-base font-bold leading-normal truncate">HDMI Port Replacement</h4>
-                <p className="text-slate-500 dark:text-slate-400 text-xs font-medium truncate">Fix "No Signal" or Black Screen</p>
-              </div>
-              <div className="shrink-0 flex flex-col items-end">
-                <span className="text-slate-900 dark:text-slate-100 text-base font-bold">$95.00</span>
-                <span className="text-[10px] text-primary bg-primary/10 px-2 py-0.5 rounded-full mt-1 font-bold">Same Day</span>
-              </div>
-            </Link>
+            <ServiceCard
+              href="/services"
+              icon={Cable}
+              title="HDMI Port Replacement"
+              description='Fix "No Signal" or Black Screen'
+              price="$95.00"
+              turnaround="Same Day"
+              descriptionTruncate
+            />
 
-            <Link href="/services" className="group flex items-center gap-4 bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-all active:scale-[0.98]">
-              <div className="flex items-center justify-center rounded-lg bg-primary/10 text-primary shrink-0 size-12 group-hover:bg-primary group-hover:text-white transition-colors">
-                <Fan className="w-6 h-6" />
-              </div>
-              <div className="flex-1 min-w-0 flex flex-col text-left">
-                <h4 className="text-slate-900 dark:text-slate-100 text-base font-bold leading-normal truncate">Deep Clean & Thermal Paste</h4>
-                <p className="text-slate-500 dark:text-slate-400 text-xs font-medium truncate">Fix overheating and loud fan noise</p>
-              </div>
-              <div className="shrink-0 flex flex-col items-end">
-                <span className="text-slate-900 dark:text-slate-100 text-base font-bold">$69.99</span>
-                <span className="text-[10px] text-primary bg-primary/10 px-2 py-0.5 rounded-full mt-1 font-bold">Same Day</span>
-              </div>
-            </Link>
+            <ServiceCard
+              href="/services"
+              icon={Fan}
+              title="Deep Clean & Thermal Paste"
+              description="Fix overheating and loud fan noise"
+              price="$69.99"
+              turnaround="Same Day"
+              descriptionTruncate
+            />
 
-            <Link href="/services" className="group flex items-center gap-4 bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-all active:scale-[0.98]">
-              <div className="flex items-center justify-center rounded-lg bg-primary/10 text-primary shrink-0 size-12 group-hover:bg-primary group-hover:text-white transition-colors">
-                <Joystick className="w-6 h-6" />
-              </div>
-              <div className="flex-1 min-w-0 flex flex-col text-left">
-                <h4 className="text-slate-900 dark:text-slate-100 text-base font-bold leading-normal truncate">Stick Drift Repair</h4>
-                <p className="text-slate-500 dark:text-slate-400 text-xs font-medium truncate">Fix stick drift + controller cleaning</p>
-              </div>
-              <div className="shrink-0 flex flex-col items-end">
-                <span className="text-slate-900 dark:text-slate-100 text-base font-bold">$35.00</span>
-                <span className="text-[10px] text-primary bg-primary/10 px-2 py-0.5 rounded-full mt-1 font-bold">Same Day</span>
-              </div>
-            </Link>
+            <ServiceCard
+              href="/services"
+              icon={Joystick}
+              title="Stick Drift Repair"
+              description="Fix stick drift + controller cleaning"
+              price="$35.00"
+              turnaround="Same Day"
+              descriptionTruncate
+            />
           </div>
         </section>
 
@@ -148,6 +140,11 @@ export default function Home() {
               <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
             </svg>
           </a>
+        </div>
+        <div className="flex flex-col md:flex-row items-center gap-2 md:gap-6 mb-4 text-sm font-medium text-slate-600 dark:text-slate-400">
+          <a href="tel:+15055243280" className="hover:text-primary transition-colors">+1 (505) 524-3280</a>
+          <span className="hidden md:inline text-slate-300 dark:text-slate-700">•</span>
+          <a href="mailto:support@we-fix-consoles.com" className="hover:text-primary transition-colors">support@we-fix-consoles.com</a>
         </div>
         <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
           &copy; {new Date().getFullYear()} We-Fix-Consoles. All rights reserved.
