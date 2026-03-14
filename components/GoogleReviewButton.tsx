@@ -3,7 +3,7 @@ import React from 'react';
 export function GoogleReviewButton() {
   return (
     <a
-      href="https://share.google/H2DxFuNYOLY3Fnuw8"
+      href="https://g.page/r/Caxte1x8pJY0EBM/review"
       target="_blank"
       rel="noopener noreferrer"
       className="mt-8 flex items-center gap-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 py-3 px-6 rounded-full shadow-sm hover:shadow-md transition-all active:scale-[0.98] group"
