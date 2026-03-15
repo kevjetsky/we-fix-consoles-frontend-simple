@@ -35,7 +35,7 @@ export default function Services() {
             icon={Cable}
             title="HDMI Port Repair"
             description="Standard replacement"
-            price="$79.99"
+            price="$69.99"
             turnaround="Same Day"
           />
 
@@ -60,7 +60,7 @@ export default function Services() {
             icon={Fan}
             title="Deep Clean + Thermal Paste"
             description="Liquid Metal Application"
-            price="$69.99"
+            price="$49.99"
             turnaround="Same Day"
             titleTruncate={false}
           />
