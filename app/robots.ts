@@ -1,5 +1,7 @@
 import { MetadataRoute } from 'next';
 
+export const dynamic = 'force-static';
+
 export default function robots(): MetadataRoute.Robots {
     return {
         rules: [
@@ -28,6 +30,6 @@ export default function robots(): MetadataRoute.Robots {
                 allow: '/',
             },
         ],
-        sitemap: 'https://wefixconsoles.com/sitemap.xml',
+        sitemap: 'https://we-fix-consoles.com/sitemap.xml',
     };
 }

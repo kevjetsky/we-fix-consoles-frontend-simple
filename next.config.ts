@@ -22,7 +22,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  output: 'standalone',
+  output: 'export',
   turbopack: {}, // Required: explicitly declare turbopack to avoid conflict with any webpack remnants
 };
 

@@ -13,6 +13,23 @@ export interface Article {
 
 export const articles: Article[] = [
     {
+        id: '6',
+        slug: 'what-to-check-before-mobile-console-repair',
+        title: 'What to Check Before Booking a Mobile Console Repair',
+        excerpt: 'Before a mobile console repair appointment, a few quick checks can help confirm the problem and make the visit faster. Power cables, HDMI cords, display settings, and error symptoms all give useful clues.',
+        content: [
+            'Before a mobile console repair appointment, a few quick checks can help confirm the problem and make the visit faster. Power cables, HDMI cords, display settings, and error symptoms all give useful clues.',
+            'If your console has no signal, try another HDMI cable and another TV input before assuming the port is bad. If the system powers on but shuts off while gaming, note whether the fan gets loud, the console feels hot, or the shutdown happens during the same game every time.',
+            'For controller problems, write down whether the drift happens in every game or only one title. For no-power issues, avoid repeatedly plugging and unplugging the console if you hear clicking, smell burning, or see damaged ports. That can make a board-level problem worse.',
+            'When WE FIX CONSOLES comes to you, those details help us diagnose the issue faster and bring the right repair parts. A little prep can save time while still keeping the repair simple: no shop visit needed.'
+        ],
+        date: 'July 5, 2026',
+        readTime: '4 min read',
+        category: 'Mobile Service',
+        imageColor: 'from-sky-500 to-blue-500',
+        seoKeywords: 'mobile console repair, console repair appointment, PS5 repair Houston, Xbox repair Houston, Nintendo Switch repair Houston'
+    },
+    {
         id: '1',
         slug: 'hdmi-port-problems-game-consoles',
         title: 'HDMI Port Problems on Game Consoles: Signs You Should Not Ignore',

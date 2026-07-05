@@ -14,10 +14,10 @@ export default function Home() {
         <section className="px-5 pt-8 md:pt-20 pb-10 flex flex-col items-center text-center w-full max-w-4xl mx-auto">
           <h2 className="text-4xl md:text-6xl font-extrabold text-text-main dark:text-white leading-tight mb-4 tracking-tight pt-4">
             WE FIX CONSOLES<br />
-            <span className="text-primary">Fast &amp; Reliable.</span>
+            <span className="text-primary">Mobile Repair.</span>
           </h2>
           <p className="text-text-muted dark:text-slate-400 text-base md:text-xl leading-relaxed max-w-[320px] md:max-w-xl mb-8">
-            Expert mobile console repair for PlayStation 5 (PS5), Xbox Series X/S, and Nintendo Switch in Houston, TX. We come to you with a 90-day warranty and a no-fix, no-fee guarantee.
+            No shop visit needed. We repair PlayStation 5 (PS5), Xbox Series X/S, and Nintendo Switch consoles at your location with a 90-day warranty and a no-fix, no-fee guarantee.
           </p>
           <div className="flex flex-col md:flex-row w-full max-w-sm md:max-w-2xl gap-3 md:gap-6 justify-center">
             <Link href="/services" className="w-full h-14 bg-gradient-to-r from-primary via-cyan-400 to-primary animate-gradient-x hover:brightness-110 active:scale-[0.98] transition-all text-white rounded-xl font-bold text-base shadow-lg shadow-primary/25 flex items-center justify-center gap-2">
@@ -50,7 +50,7 @@ export default function Home() {
               </div>
               <div className="text-left">
                 <h3 className="font-bold text-text-main dark:text-white">We Come to You</h3>
-                <p className="text-xs text-text-muted dark:text-slate-400 mt-1">Free mobile service.</p>
+                <p className="text-xs text-text-muted dark:text-slate-400 mt-1">No shop visit needed.</p>
               </div>
             </div>
             <div className="bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex flex-col items-start gap-3 col-span-2 lg:col-span-1">
@@ -76,7 +76,7 @@ export default function Home() {
               icon={Cable}
               title="HDMI Port Replacement"
               description='Fix "No Signal" or Black Screen'
-              price="$69.99"
+              price="$89.99"
               turnaround="Same Day"
               descriptionTruncate
             />
@@ -86,7 +86,7 @@ export default function Home() {
               icon={Fan}
               title="Deep Clean & Thermal Paste"
               description="Fix overheating and loud fan noise"
-              price="$49.99"
+              price="$59.99"
               turnaround="Same Day"
               descriptionTruncate
             />
@@ -96,7 +96,7 @@ export default function Home() {
               icon={Joystick}
               title="Stick Drift Repair"
               description="Fix stick drift + controller cleaning"
-              price="$35.00"
+              price="$29.99"
               turnaround="Same Day"
               descriptionTruncate
             />

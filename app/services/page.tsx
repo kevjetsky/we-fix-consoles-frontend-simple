@@ -19,7 +19,7 @@ export default function Services() {
       <main className="flex-1 flex flex-col p-4 md:p-10 lg:px-24 pb-32 w-full max-w-7xl mx-auto">
         <div className="mb-6 md:mb-10 text-center md:text-left">
           <h1 className="text-slate-900 dark:text-slate-100 text-[32px] md:text-5xl font-extrabold leading-tight tracking-tight">Repair Services</h1>
-          <p className="text-slate-500 dark:text-slate-400 mt-2 md:mt-4 text-sm md:text-lg">Transparent pricing for expert console repairs. Select a service to get started.</p>
+          <p className="text-slate-500 dark:text-slate-400 mt-2 md:mt-4 text-sm md:text-lg">Transparent pricing for mobile console repairs in Houston. We come to you.</p>
         </div>
 
         <div className="space-y-3 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 lg:gap-6">
@@ -35,7 +35,7 @@ export default function Services() {
             icon={Cable}
             title="HDMI Port Repair"
             description="Standard replacement"
-            price="$69.99"
+            price="$89.99"
             turnaround="Same Day"
           />
 
@@ -43,7 +43,7 @@ export default function Services() {
             icon={Cpu}
             title="HDMI Port Repair (Advanced)"
             description="Trace/pads repair included"
-            price="$89.99"
+            price="$109.99"
             turnaround="1-2 Days"
             descriptionHighlight
           />
@@ -52,7 +52,7 @@ export default function Services() {
             icon={Wind}
             title="Dust Removal"
             description="Internal air cleaning"
-            price="$19.99"
+            price="$29.99"
             turnaround="Same Day"
           />
 
@@ -60,7 +60,7 @@ export default function Services() {
             icon={Fan}
             title="Deep Clean + Thermal Paste"
             description="Liquid Metal Application"
-            price="$49.99"
+            price="$59.99"
             turnaround="Same Day"
             titleTruncate={false}
           />
@@ -69,7 +69,7 @@ export default function Services() {
             icon={Gamepad2}
             title="Stick Drift Repair"
             description="Single analog stick"
-            price="$19.99"
+            price="$29.99"
             turnaround="Same Day"
           />
 
@@ -77,7 +77,7 @@ export default function Services() {
             icon={Joystick}
             title="Full Controller Refresh"
             description="Both sticks + cleaning"
-            price="$35.00"
+            price="$45"
             turnaround="Same Day"
             titleTruncate={false}
             descriptionHighlight

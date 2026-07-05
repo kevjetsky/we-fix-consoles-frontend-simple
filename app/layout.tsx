@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'We-Fix-Consoles | Expert Mobile Repair',
     description: 'We come to you! Fast, reliable PS5, Xbox, and Switch repair with a 90-day warranty.',
-    url: 'https://wefixconsoles.com',
+    url: 'https://we-fix-consoles.com',
     siteName: 'We-Fix-Consoles',
     locale: 'en_US',
     type: 'website',
@@ -41,7 +41,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
     name: 'We-Fix-Consoles',
-    image: 'https://wefixconsoles.com/android-chrome-512x512.png',
+    image: 'https://we-fix-consoles.com/android-chrome-512x512.png',
     description: 'Mobile console repair service in Houston, TX offering PlayStation 5, Xbox Series X, and Nintendo Switch repairs directly to your door. Specializing in HDMI port replacements, overheating fixes, and stick drift.',
     telephone: '+1-505-524-3280',
     priceRange: '$$',
@@ -55,17 +55,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       {
         '@type': 'Offer',
         itemOffered: { '@type': 'Service', name: 'HDMI Port Replacement (PS5 & Xbox Series X)' },
-        priceSpecification: { '@type': 'PriceSpecification', price: '95.00', priceCurrency: 'USD' }
+        priceSpecification: { '@type': 'PriceSpecification', price: '89.99', priceCurrency: 'USD' }
       },
       {
         '@type': 'Offer',
         itemOffered: { '@type': 'Service', name: 'Console Deep Cleaning & Thermal Paste' },
-        priceSpecification: { '@type': 'PriceSpecification', price: '69.99', priceCurrency: 'USD' }
+        priceSpecification: { '@type': 'PriceSpecification', price: '59.99', priceCurrency: 'USD' }
       },
       {
         '@type': 'Offer',
         itemOffered: { '@type': 'Service', name: 'Full Controller Refresh & Stick Drift Repair' },
-        priceSpecification: { '@type': 'PriceSpecification', price: '35.00', priceCurrency: 'USD' }
+        priceSpecification: { '@type': 'PriceSpecification', price: '45.00', priceCurrency: 'USD' }
       }
     ]
   };
