@@ -19,7 +19,7 @@ export default function Services() {
       <main className="flex-1 flex flex-col p-4 md:p-10 lg:px-24 pb-32 w-full max-w-7xl mx-auto">
         <div className="mb-6 md:mb-10 text-center md:text-left">
           <h1 className="text-slate-900 dark:text-slate-100 text-[32px] md:text-5xl font-extrabold leading-tight tracking-tight">Repair Services</h1>
-          <p className="text-slate-500 dark:text-slate-400 mt-2 md:mt-4 text-sm md:text-lg">Transparent pricing for mobile console repairs in Houston. We come to you.</p>
+          <p className="text-slate-500 dark:text-slate-400 mt-2 md:mt-4 text-sm md:text-lg">Transparent pricing, and we come to you — every repair is done at your door, anywhere in Houston.</p>
         </div>
 
         <div className="space-y-3 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 lg:gap-6">
@@ -87,10 +87,10 @@ export default function Services() {
         <div className="mt-8 p-5 bg-primary/5 rounded-xl border border-primary/10">
           <div className="flex gap-3 mb-2">
             <ShieldCheck className="w-6 h-6 text-primary" />
-            <h3 className="text-slate-900 dark:text-slate-100 font-bold">90-Day Warranty</h3>
+            <h3 className="text-slate-900 dark:text-slate-100 font-bold">40-Day Warranty</h3>
           </div>
           <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-            All repairs come with a standard 90-day warranty on parts and labor. We use premium quality replacement parts for lasting results.
+            All repairs come with a standard 40-day warranty on parts and labor. We use premium quality replacement parts for lasting results.
           </p>
         </div>
       </main>
