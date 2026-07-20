@@ -55,12 +55,32 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       {
         '@type': 'Offer',
         itemOffered: { '@type': 'Service', name: 'HDMI Port Replacement (PS5 & Xbox Series X)' },
-        priceSpecification: { '@type': 'PriceSpecification', price: '89.99', priceCurrency: 'USD' }
+        priceSpecification: { '@type': 'PriceSpecification', price: '99.99', priceCurrency: 'USD' }
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: { '@type': 'Service', name: 'Advanced HDMI Port Repair' },
+        priceSpecification: { '@type': 'PriceSpecification', price: '119.99', priceCurrency: 'USD' }
       },
       {
         '@type': 'Offer',
         itemOffered: { '@type': 'Service', name: 'Console Deep Cleaning & Thermal Paste' },
-        priceSpecification: { '@type': 'PriceSpecification', price: '59.99', priceCurrency: 'USD' }
+        priceSpecification: { '@type': 'PriceSpecification', price: '79.99', priceCurrency: 'USD' }
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: { '@type': 'Service', name: 'PS5 Ethernet Port Repair' },
+        priceSpecification: { '@type': 'PriceSpecification', price: '99.99', priceCurrency: 'USD' }
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: { '@type': 'Service', name: 'PS5 Power Supply Repair' },
+        priceSpecification: { '@type': 'PriceSpecification', price: '119.99', priceCurrency: 'USD' }
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: { '@type': 'Service', name: 'PS5 Disk Drive Repair' },
+        priceSpecification: { '@type': 'PriceSpecification', price: '95.00', priceCurrency: 'USD' }
       },
       {
         '@type': 'Offer',
