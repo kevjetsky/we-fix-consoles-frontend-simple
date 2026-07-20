@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    unoptimized: true, // Saves significant memory on Cloud Run
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
