@@ -80,7 +80,7 @@ export default function Home() {
               icon={Cable}
               title="HDMI Port Replacement"
               description='Fix "No Signal" or Black Screen'
-              price="$89.99"
+              price="$99.99"
               turnaround="Same Day"
               descriptionTruncate
             />
@@ -90,7 +90,7 @@ export default function Home() {
               icon={Fan}
               title="Deep Clean & Thermal Paste"
               description="Fix overheating and loud fan noise"
-              price="$59.99"
+              price="$79.99"
               turnaround="Same Day"
               descriptionTruncate
             />

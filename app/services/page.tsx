@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowLeft, Stethoscope, Cable, Cpu, Wind, Fan, Gamepad2, Joystick, ShieldCheck, Calendar } from 'lucide-react';
+import { ArrowLeft, Stethoscope, Cable, Cpu, Wind, Fan, Gamepad2, Joystick, ShieldCheck, Calendar, EthernetPort, Power, Disc3 } from 'lucide-react';
 import { ServiceCard } from '@/components/ServiceCard';
 
 export default function Services() {
@@ -35,7 +35,7 @@ export default function Services() {
             icon={Cable}
             title="HDMI Port Repair"
             description="Standard replacement"
-            price="$89.99"
+            price="$99.99"
             turnaround="Same Day"
           />
 
@@ -43,9 +43,36 @@ export default function Services() {
             icon={Cpu}
             title="HDMI Port Repair (Advanced)"
             description="Trace/pads repair included"
-            price="$109.99"
+            price="$119.99"
             turnaround="1-2 Days"
             descriptionHighlight
+          />
+
+          <ServiceCard
+            icon={EthernetPort}
+            title="PS5 Ethernet Port Repair"
+            description="LAN port replacement"
+            price="$99.99"
+            turnaround="Same Day"
+            titleTruncate={false}
+          />
+
+          <ServiceCard
+            icon={Power}
+            title="PS5 Power Supply Repair"
+            description="Power supply replacement"
+            price="$119.99"
+            turnaround="1-2 Days"
+            titleTruncate={false}
+          />
+
+          <ServiceCard
+            icon={Disc3}
+            title="PS5 Disk Drive Repair"
+            description="Disk drive replacement"
+            price="$95"
+            turnaround="1-2 Days"
+            titleTruncate={false}
           />
 
           <ServiceCard
@@ -60,7 +87,7 @@ export default function Services() {
             icon={Fan}
             title="Deep Clean + Thermal Paste"
             description="Liquid Metal Application"
-            price="$59.99"
+            price="$79.99"
             turnaround="Same Day"
             titleTruncate={false}
           />
