@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowLeft, Stethoscope, Cable, Cpu, Wind, Fan, Gamepad2, Joystick, ShieldCheck, Calendar, EthernetPort, Power, Disc3 } from 'lucide-react';
+import { ArrowLeft, Stethoscope, Cable, Cpu, Wind, Fan, Gamepad2, Joystick, ShieldCheck, Calendar, EthernetPort, Power, Disc3, Plug } from 'lucide-react';
 import { ServiceCard } from '@/components/ServiceCard';
 
 export default function Services() {
@@ -19,97 +19,129 @@ export default function Services() {
       <main className="flex-1 flex flex-col p-4 md:p-10 lg:px-24 pb-32 w-full max-w-7xl mx-auto">
         <div className="mb-6 md:mb-10 text-center md:text-left">
           <h1 className="text-slate-900 dark:text-slate-100 text-[32px] md:text-5xl font-extrabold leading-tight tracking-tight">Repair Services</h1>
-          <p className="text-slate-500 dark:text-slate-400 mt-2 md:mt-4 text-sm md:text-lg">Transparent pricing, and we come to you — every repair is done at your door, anywhere in Houston.</p>
+          <p className="text-slate-500 dark:text-slate-400 mt-2 md:mt-4 text-sm md:text-lg">Transparent pricing, and we come to you — every repair is done at your door, anywhere in Houston. All prices plus tax.</p>
         </div>
 
-        <div className="space-y-3 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 lg:gap-6">
-          <ServiceCard
-            icon={Stethoscope}
-            title="Diagnostic"
-            description="Issue identification"
-            price={<div className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-3 py-1 rounded-full text-xs font-bold">FREE</div>}
-            turnaround="Same Day"
-          />
+        <section className="mb-8">
+          <h2 className="text-slate-900 dark:text-slate-100 text-lg md:text-xl font-bold mb-3 md:mb-4">Diagnostics</h2>
+          <div className="space-y-3 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 lg:gap-6">
+            <ServiceCard
+              icon={Stethoscope}
+              title="Diagnostic"
+              description="Issue identification"
+              price={<div className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-3 py-1 rounded-full text-xs font-bold">FREE</div>}
+              turnaround="Same Day"
+              showTax={false}
+            />
+          </div>
+        </section>
 
-          <ServiceCard
-            icon={Cable}
-            title="HDMI Port Repair"
-            description="Standard replacement"
-            price="$99.99"
-            turnaround="Same Day"
-          />
+        <section className="mb-8">
+          <h2 className="text-slate-900 dark:text-slate-100 text-lg md:text-xl font-bold mb-3 md:mb-4">Console Repairs</h2>
+          <div className="space-y-3 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 lg:gap-6">
+            <ServiceCard
+              icon={Cable}
+              title="HDMI Port Repair"
+              description="Standard replacement"
+              price="$99.99"
+              turnaround="Same Day"
+            />
 
-          <ServiceCard
-            icon={Cpu}
-            title="HDMI Port Repair (Advanced)"
-            description="Trace/pads repair included"
-            price="$119.99"
-            turnaround="1-2 Days"
-            descriptionHighlight
-          />
+            <ServiceCard
+              icon={Cpu}
+              title="HDMI Port Repair (Advanced)"
+              description="Trace/pads repair included"
+              price="$119.99"
+              turnaround="1-2 Days"
+              descriptionHighlight
+            />
 
-          <ServiceCard
-            icon={EthernetPort}
-            title="PS5 Ethernet Port Repair"
-            description="LAN port replacement"
-            price="$99.99"
-            turnaround="Same Day"
-            titleTruncate={false}
-          />
+            <ServiceCard
+              icon={EthernetPort}
+              title="PS5 Ethernet Port Repair"
+              description="LAN port replacement"
+              price="$99.99"
+              turnaround="Same Day"
+              titleTruncate={false}
+            />
 
-          <ServiceCard
-            icon={Power}
-            title="PS5 Power Supply Repair"
-            description="Power supply replacement"
-            price="$119.99"
-            turnaround="1-2 Days"
-            titleTruncate={false}
-          />
+            <ServiceCard
+              icon={Power}
+              title="PS5 Power Supply Repair"
+              description="Power supply replacement"
+              price="$119.99"
+              turnaround="1-2 Days"
+              titleTruncate={false}
+            />
 
-          <ServiceCard
-            icon={Disc3}
-            title="PS5 Disk Drive Repair"
-            description="Disk drive replacement"
-            price="$95"
-            turnaround="1-2 Days"
-            titleTruncate={false}
-          />
+            <ServiceCard
+              icon={Disc3}
+              title="Disk Drive Replacement"
+              description="PS5 / Xbox disc drive swap"
+              price="$95"
+              turnaround="1-2 Days"
+              titleTruncate={false}
+            />
+          </div>
+        </section>
 
-          <ServiceCard
-            icon={Wind}
-            title="Dust Removal"
-            description="Internal air cleaning"
-            price="$29.99"
-            turnaround="Same Day"
-          />
+        <section className="mb-8">
+          <h2 className="text-slate-900 dark:text-slate-100 text-lg md:text-xl font-bold mb-3 md:mb-4">Cleaning &amp; Maintenance</h2>
+          <div className="space-y-3 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 lg:gap-6">
+            <ServiceCard
+              icon={Wind}
+              title="Dust Removal"
+              description="Internal air cleaning"
+              price="$29.99"
+              turnaround="Same Day"
+            />
 
-          <ServiceCard
-            icon={Fan}
-            title="Deep Clean + Thermal Paste"
-            description="Liquid Metal Application"
-            price="$79.99"
-            turnaround="Same Day"
-            titleTruncate={false}
-          />
+            <ServiceCard
+              icon={Fan}
+              title="Deep Clean + Thermal Paste"
+              description="Liquid Metal Application"
+              price="$79.99"
+              turnaround="Same Day"
+              titleTruncate={false}
+            />
+          </div>
+        </section>
 
-          <ServiceCard
-            icon={Gamepad2}
-            title="Stick Drift Repair"
-            description="Single analog stick"
-            price="$29.99"
-            turnaround="Same Day"
-          />
+        <section className="mb-8">
+          <h2 className="text-slate-900 dark:text-slate-100 text-lg md:text-xl font-bold mb-3 md:mb-4">Controller Repairs</h2>
+          <div className="space-y-3 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 lg:gap-6">
+            <ServiceCard
+              icon={Gamepad2}
+              title="Stick Drift Repair"
+              description="Single analog stick"
+              price="$29.99"
+              turnaround="Same Day"
+            />
 
-          <ServiceCard
-            icon={Joystick}
-            title="Full Controller Refresh"
-            description="Both sticks + cleaning"
-            price="$45"
-            turnaround="Same Day"
-            titleTruncate={false}
-            descriptionHighlight
-          />
-        </div>
+            <ServiceCard
+              icon={Joystick}
+              title="Full Controller Refresh"
+              description="Both sticks + cleaning"
+              price="$45"
+              turnaround="Same Day"
+              titleTruncate={false}
+              descriptionHighlight
+            />
+          </div>
+        </section>
+
+        <section>
+          <h2 className="text-slate-900 dark:text-slate-100 text-lg md:text-xl font-bold mb-3 md:mb-4">Parts &amp; Accessories</h2>
+          <div className="space-y-3 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 lg:gap-6">
+            <ServiceCard
+              icon={Plug}
+              title="HDMI Cable"
+              description="High-speed 4K HDMI cable"
+              price="$10"
+              turnaround="In Stock"
+            />
+          </div>
+        </section>
 
         <div className="mt-8 p-5 bg-primary/5 rounded-xl border border-primary/10">
           <div className="flex gap-3 mb-2">

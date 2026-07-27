@@ -11,6 +11,7 @@ interface ServiceCardProps {
   titleTruncate?: boolean;
   descriptionHighlight?: boolean;
   descriptionTruncate?: boolean;
+  showTax?: boolean;
   href?: string;
 }
 
@@ -23,6 +24,7 @@ export function ServiceCard({
   titleTruncate = true,
   descriptionHighlight = false,
   descriptionTruncate = false,
+  showTax = true,
   href
 }: ServiceCardProps) {
   const content = (
@@ -39,11 +41,16 @@ export function ServiceCard({
         </p>
       </div>
       <div className="shrink-0 flex flex-col items-end">
-        {typeof price === 'string' ? (
-          <span className="text-slate-900 dark:text-slate-100 text-base font-bold">{price}</span>
-        ) : (
-          price
-        )}
+        <div className="flex items-baseline gap-1">
+          {typeof price === 'string' ? (
+            <span className="text-slate-900 dark:text-slate-100 text-base font-bold">{price}</span>
+          ) : (
+            price
+          )}
+          {showTax && (
+            <span className="text-[10px] font-semibold text-slate-400 dark:text-slate-500">+tax</span>
+          )}
+        </div>
         <span className="text-[10px] text-primary bg-primary/10 px-2 py-0.5 rounded-full mt-1 font-bold">
           {turnaround}
         </span>
