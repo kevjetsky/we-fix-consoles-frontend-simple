@@ -28,7 +28,7 @@ export default function Home() {
               View Services
               <ArrowRight className="w-5 h-5" />
             </Link>
-            <a href="sms:+15055243280?body=Hi!%20I'd%20like%20a%20repair%20quote.%20My%20console%20is%20a%20[Console%20Model]%20and%20the%20problem%20is%20[Describe%20Issue]." className="w-full h-14 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 active:scale-[0.98] transition-all text-text-main dark:text-white rounded-xl font-bold text-base flex items-center justify-center gap-2">
+            <a href="sms:+13466674364?body=Hi!%20I'd%20like%20a%20repair%20quote.%20My%20console%20is%20a%20[Console%20Model]%20and%20the%20problem%20is%20[Describe%20Issue]." className="w-full h-14 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 active:scale-[0.98] transition-all text-text-main dark:text-white rounded-xl font-bold text-base flex items-center justify-center gap-2">
               <MessageSquare className="w-5 h-5 text-primary" />
               Get SMS Quote
             </a>
@@ -124,7 +124,7 @@ export default function Home() {
           <div className="bg-gradient-to-br from-primary to-blue-700 rounded-2xl p-6 md:p-12 text-white text-center shadow-lg shadow-blue-500/20">
             <h3 className="text-xl md:text-3xl font-bold mb-2 md:mb-4">PlayStation, Xbox, or Switch not working?</h3>
             <p className="text-blue-100 text-sm md:text-lg mb-6 md:mb-8 max-w-xl mx-auto">Our experts come straight to your door and diagnose your console on the spot, from HDMI ports to crashing and overheating.</p>
-            <a href="tel:+15055243280" className="w-full md:w-auto md:px-12 h-12 md:h-14 bg-white text-primary font-bold rounded-xl flex items-center justify-center gap-2 hover:bg-blue-50 transition-colors mx-auto text-base">
+            <a href="tel:+13466674364" className="w-full md:w-auto md:px-12 h-12 md:h-14 bg-white text-primary font-bold rounded-xl flex items-center justify-center gap-2 hover:bg-blue-50 transition-colors mx-auto text-base">
               <Phone className="w-5 h-5" />
               Call for Free Advice
             </a>
@@ -146,7 +146,7 @@ export default function Home() {
           </a>
         </div>
         <div className="flex flex-col md:flex-row items-center gap-2 md:gap-6 mb-4 text-sm font-medium text-slate-600 dark:text-slate-400">
-          <a href="tel:+15055243280" className="hover:text-primary transition-colors">+1 (505) 524-3280</a>
+          <a href="tel:+13466674364" className="hover:text-primary transition-colors">+1 (346) 667-4364</a>
           <span className="hidden md:inline text-slate-300 dark:text-slate-700">•</span>
           <a href="mailto:support@we-fix-consoles.com" className="hover:text-primary transition-colors">support@we-fix-consoles.com</a>
         </div>

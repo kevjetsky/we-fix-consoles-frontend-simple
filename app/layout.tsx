@@ -43,7 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     name: 'We-Fix-Consoles',
     image: 'https://we-fix-consoles.com/android-chrome-512x512.png',
     description: 'Mobile console repair service in Houston, TX offering PlayStation 5, Xbox Series X, and Nintendo Switch repairs directly to your door. Specializing in HDMI port replacements, overheating fixes, and stick drift.',
-    telephone: '+1-505-524-3280',
+    telephone: '+1-346-667-4364',
     priceRange: '$$',
     areaServed: {
       '@type': 'City',
