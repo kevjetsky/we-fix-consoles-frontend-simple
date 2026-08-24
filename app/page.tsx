@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, MessageSquare, ShieldCheck, Truck, Banknote, Phone, Cable, Fan, Joystick, Facebook, Instagram } from 'lucide-react';
+import { ArrowRight, MessageSquare, ShieldCheck, Truck, Banknote, Phone, Cable, Droplets, Sparkles, Facebook, Instagram } from 'lucide-react';
 import { ServiceCard } from '@/components/ServiceCard';
 import { GoogleReviewButton } from '@/components/GoogleReviewButton';
 
@@ -21,7 +21,7 @@ export default function Home() {
             <span className="text-primary">At Your Door.</span>
           </h2>
           <p className="text-text-muted dark:text-slate-400 text-base md:text-xl leading-relaxed max-w-[320px] md:max-w-xl mb-8">
-            Skip the repair shop — we drive to your home anywhere in Houston. We repair PlayStation 5 (PS5), Xbox Series X/S, and Nintendo Switch consoles on the spot, backed by a 40-day warranty and a no-fix, no-fee guarantee.
+            Skip the repair shop — we drive to your home anywhere in Houston. We repair PlayStation 5, PlayStation 4, Xbox Series X/S, and Xbox One consoles on the spot, backed by a 40-day warranty and a no-fix, no-fee guarantee.
           </p>
           <div className="flex flex-col md:flex-row w-full max-w-sm md:max-w-2xl gap-3 md:gap-6 justify-center">
             <Link href="/services" className="w-full h-14 bg-gradient-to-r from-primary via-cyan-400 to-primary animate-gradient-x hover:brightness-110 active:scale-[0.98] transition-all text-white rounded-xl font-bold text-base shadow-lg shadow-primary/25 flex items-center justify-center gap-2">
@@ -82,25 +82,27 @@ export default function Home() {
               description='Fix "No Signal" or Black Screen'
               price="$99.99"
               turnaround="Same Day"
+              titleTruncate={false}
               descriptionTruncate
             />
 
             <ServiceCard
               href="/services"
-              icon={Fan}
-              title="Deep Clean & Thermal Paste"
+              icon={Droplets}
+              title="Liquid Metal Replacement"
               description="Fix overheating and loud fan noise"
-              price="$79.99"
+              price="$99.99"
               turnaround="Same Day"
+              titleTruncate={false}
               descriptionTruncate
             />
 
             <ServiceCard
               href="/services"
-              icon={Joystick}
-              title="Stick Drift Repair"
-              description="Fix stick drift + controller cleaning"
-              price="$29.99"
+              icon={Sparkles}
+              title="Full Deep Clean"
+              description="Complete internal teardown and cleaning"
+              price="$69.99"
               turnaround="Same Day"
               descriptionTruncate
             />
@@ -122,7 +124,7 @@ export default function Home() {
 
         <section className="px-5 py-6 md:py-12 w-full max-w-4xl mx-auto">
           <div className="bg-gradient-to-br from-primary to-blue-700 rounded-2xl p-6 md:p-12 text-white text-center shadow-lg shadow-blue-500/20">
-            <h3 className="text-xl md:text-3xl font-bold mb-2 md:mb-4">PlayStation, Xbox, or Switch not working?</h3>
+            <h3 className="text-xl md:text-3xl font-bold mb-2 md:mb-4">PlayStation or Xbox not working?</h3>
             <p className="text-blue-100 text-sm md:text-lg mb-6 md:mb-8 max-w-xl mx-auto">Our experts come straight to your door and diagnose your console on the spot, from HDMI ports to crashing and overheating.</p>
             <a href="tel:+13466674364" className="w-full md:w-auto md:px-12 h-12 md:h-14 bg-white text-primary font-bold rounded-xl flex items-center justify-center gap-2 hover:bg-blue-50 transition-colors mx-auto text-base">
               <Phone className="w-5 h-5" />
