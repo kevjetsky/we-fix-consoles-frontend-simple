@@ -91,7 +91,7 @@ export default function Home() {
               icon={Droplets}
               title="Liquid Metal Replacement"
               description="Fix overheating and loud fan noise"
-              price="$99.99"
+              price="$89.99"
               turnaround="Same Day"
               titleTruncate={false}
               descriptionTruncate

@@ -1,10 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowLeft, Stethoscope, Cable, Cpu, Wind, Fan, Droplets, Thermometer, Sparkles, SprayCan, Brush, Joystick, ShieldCheck, Calendar, EthernetPort, Power, Disc3, Usb, Plug } from 'lucide-react';
+import { ArrowLeft, Stethoscope, Cable, Cpu, Wind, Fan, Droplets, Thermometer, Sparkles, SprayCan, Brush, Package, PackagePlus, Joystick, ShieldCheck, Calendar, EthernetPort, Power, Disc3, Usb, Plug } from 'lucide-react';
 import { ServiceCard } from '@/components/ServiceCard';
-
-const consolesServiced = ['PlayStation 5', 'PlayStation 4 / Pro', 'Xbox Series X/S', 'Xbox One / S / X'];
 
 export default function Services() {
   return (
@@ -23,17 +21,6 @@ export default function Services() {
           <h1 className="text-slate-900 dark:text-slate-100 text-[32px] md:text-5xl font-extrabold leading-tight tracking-tight">Repair Services</h1>
           <p className="text-slate-500 dark:text-slate-400 mt-2 md:mt-4 text-sm md:text-lg">Transparent pricing, and we come to you — every repair is done at your door, anywhere in Houston. All prices plus tax.</p>
         </div>
-
-        <section className="mb-8">
-          <h2 className="text-slate-900 dark:text-slate-100 text-lg md:text-xl font-bold mb-3 md:mb-4">Consoles Serviced</h2>
-          <div className="flex flex-wrap gap-2 justify-center md:justify-start">
-            {consolesServiced.map((model) => (
-              <span key={model} className="bg-primary/10 text-primary px-3 py-1.5 rounded-full text-xs md:text-sm font-bold">
-                {model}
-              </span>
-            ))}
-          </div>
-        </section>
 
         <section className="mb-8">
           <h2 className="text-slate-900 dark:text-slate-100 text-lg md:text-xl font-bold mb-3 md:mb-4">Diagnostics</h2>
@@ -121,8 +108,8 @@ export default function Services() {
             <ServiceCard
               icon={Droplets}
               title="Liquid Metal Replacement"
-              description="PS5 / Xbox Series X — includes fan and heatsink cleaning"
-              price="$99.99"
+              description="PS5 — includes fan and heatsink cleaning"
+              price="$89.99"
               turnaround="Same Day"
               titleTruncate={false}
             />
@@ -130,7 +117,7 @@ export default function Services() {
             <ServiceCard
               icon={Thermometer}
               title="Thermal Paste Replacement"
-              description="PS4 / Xbox One — includes fan and heatsink cleaning"
+              description="PS4 / Xbox Series X|S / Xbox One — includes fan and heatsink cleaning"
               price="$79.99"
               turnaround="Same Day"
               titleTruncate={false}
@@ -146,9 +133,44 @@ export default function Services() {
             />
 
             <ServiceCard
+              icon={Wind}
+              title="Quick Vent Blowout"
+              description="External dust removal"
+              price="$29.99"
+              turnaround="Same Day"
+              titleTruncate={false}
+            />
+          </div>
+        </section>
+
+        <section className="mb-8">
+          <h2 className="text-slate-900 dark:text-slate-100 text-lg md:text-xl font-bold mb-1 md:mb-2">Bundles</h2>
+          <p className="text-slate-500 dark:text-slate-400 text-sm mb-3 md:mb-4">These repairs are common on the same console, so we bundle them and pass the savings on. Bundled work is done in a single visit.</p>
+          <div className="space-y-3 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 lg:gap-6">
+            <ServiceCard
+              icon={Package}
+              title="HDMI + Liquid Metal"
+              description="PS5 — HDMI port replacement, liquid metal, fan and heatsink cleaning"
+              price="$169.99"
+              turnaround="Same Day"
+              titleTruncate={false}
+              descriptionHighlight
+            />
+
+            <ServiceCard
+              icon={PackagePlus}
+              title="HDMI + Liquid Metal + Full Deep Clean"
+              description="PS5 — everything above plus complete internal teardown and cleaning"
+              price="$219.99"
+              turnaround="Same Day"
+              titleTruncate={false}
+              descriptionHighlight
+            />
+
+            <ServiceCard
               icon={SprayCan}
               title="Liquid Metal + Full Deep Clean"
-              description="PS5 / Xbox Series X"
+              description="PS5"
               price="$139.99"
               turnaround="Same Day"
               titleTruncate={false}
@@ -158,20 +180,11 @@ export default function Services() {
             <ServiceCard
               icon={Brush}
               title="Thermal Paste + Full Deep Clean"
-              description="PS4 / Xbox One"
+              description="PS4 / Xbox Series X|S / Xbox One"
               price="$119.99"
               turnaround="Same Day"
               titleTruncate={false}
               descriptionHighlight
-            />
-
-            <ServiceCard
-              icon={Wind}
-              title="Quick Vent Blowout"
-              description="External dust removal"
-              price="$29.99"
-              turnaround="Same Day"
-              titleTruncate={false}
             />
           </div>
         </section>
