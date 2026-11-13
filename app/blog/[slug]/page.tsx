@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Clock, Calendar, Facebook, Instagram } from 'lucide-react';
 import { articles, getArticleBySlug } from '@/lib/articles';
+import { SplitWords } from '@/components/SplitWords';
 
 // Generate static params for all articles setup in the array
 export function generateStaticParams() {
@@ -56,11 +57,11 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                 <article className="w-full max-w-3xl">
                     <div className="mb-8 md:mb-12">
                         <div className="flex items-center gap-3 mb-6">
-                            <span className="text-xs uppercase tracking-wider font-bold text-primary bg-primary/10 px-3 py-1.5 rounded-full">{article.category}</span>
+                            <span className="pop inline-block text-xs uppercase tracking-wider font-bold text-primary bg-primary/10 px-3 py-1.5 rounded-full">{article.category}</span>
                         </div>
 
-                        <h1 className="text-3xl md:text-5xl font-extrabold text-slate-900 dark:text-white leading-tight mb-6 tracking-tight">
-                            {article.title}
+                        <h1 className="words-now [--words-delay:0.1s] text-3xl md:text-5xl font-extrabold text-slate-900 dark:text-white leading-tight mb-6 tracking-tight">
+                            <SplitWords text={article.title} />
                         </h1>
 
                         <div className="flex flex-wrap items-center gap-4 text-sm text-slate-500 dark:text-slate-400 font-medium">
@@ -75,8 +76,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                         </div>
                     </div>
 
-                    <div className={`w-full h-48 md:h-80 rounded-3xl bg-gradient-to-br ${article.imageColor} mb-10 md:mb-16 shadow-lg shadow-black/5 flex items-center justify-center`}>
-                        {/* Optional featured image would go here */}
+                    <div className="arrow-wipe arrow-now [--arrow-delay:0.4s] w-full h-48 md:h-80 rounded-3xl mb-10 md:mb-16 shadow-lg shadow-black/5">
+                        <div className={`arrow-wipe__fill bg-gradient-to-br ${article.imageColor}`} />
                     </div>
 
                     <div className="prose prose-slate dark:prose-invert prose-lg max-w-none w-full">
@@ -87,7 +88,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                         ))}
                     </div>
 
-                    <div className="mt-12 md:mt-20 p-8 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-800 text-center">
+                    <div data-reveal="mask" className="mt-12 md:mt-20 p-8 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-800 text-center">
                         <h3 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white mb-3">Need a Console Repair?</h3>
                         <p className="text-slate-500 dark:text-slate-400 mb-6">Our experts in Houston are ready to help point you in the right direction.</p>
                         <Link href="/services" className="inline-flex h-12 items-center justify-center px-8 bg-gradient-to-r from-primary via-cyan-400 to-primary text-white font-bold rounded-xl active:scale-[0.98] transition-all hover:brightness-110">

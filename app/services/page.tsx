@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { ArrowLeft, Stethoscope, Cable, Cpu, Wind, Fan, Droplets, Thermometer, Sparkles, SprayCan, Brush, Package, PackagePlus, Joystick, ShieldCheck, Calendar, EthernetPort, Power, Disc3, Usb, Plug } from 'lucide-react';
 import { ServiceCard } from '@/components/ServiceCard';
+import { SplitWords } from '@/components/SplitWords';
 
 export default function Services() {
   return (
@@ -18,12 +19,12 @@ export default function Services() {
 
       <main className="flex-1 flex flex-col p-4 md:p-10 lg:px-24 pb-32 w-full max-w-7xl mx-auto">
         <div className="mb-6 md:mb-10 text-center md:text-left">
-          <h1 className="text-slate-900 dark:text-slate-100 text-[32px] md:text-5xl font-extrabold leading-tight tracking-tight">Repair Services</h1>
-          <p className="text-slate-500 dark:text-slate-400 mt-2 md:mt-4 text-sm md:text-lg">Transparent pricing, and we come to you — every repair is done at your door, anywhere in Houston. All prices plus tax.</p>
+          <h1 className="words-now text-slate-900 dark:text-slate-100 text-[32px] md:text-5xl font-extrabold leading-tight tracking-tight"><SplitWords text="Repair Services" /></h1>
+          <p className="rise [--rise-delay:0.3s] text-slate-500 dark:text-slate-400 mt-2 md:mt-4 text-sm md:text-lg">Transparent pricing, and we come to you — every repair is done at your door, anywhere in Houston. All prices plus tax.</p>
         </div>
 
         <section className="mb-8">
-          <h2 className="text-slate-900 dark:text-slate-100 text-lg md:text-xl font-bold mb-3 md:mb-4">Diagnostics</h2>
+          <h2 data-reveal="words" className="text-slate-900 dark:text-slate-100 text-lg md:text-xl font-bold mb-3 md:mb-4"><SplitWords text="Diagnostics" /></h2>
           <div className="space-y-3 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 lg:gap-6">
             <ServiceCard
               icon={Stethoscope}
@@ -37,7 +38,7 @@ export default function Services() {
         </section>
 
         <section className="mb-8">
-          <h2 className="text-slate-900 dark:text-slate-100 text-lg md:text-xl font-bold mb-3 md:mb-4">Console Repairs</h2>
+          <h2 data-reveal="words" className="text-slate-900 dark:text-slate-100 text-lg md:text-xl font-bold mb-3 md:mb-4"><SplitWords text="Console Repairs" /></h2>
           <div className="space-y-3 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 lg:gap-6">
             <ServiceCard
               icon={Cable}
@@ -103,7 +104,7 @@ export default function Services() {
         </section>
 
         <section className="mb-8">
-          <h2 className="text-slate-900 dark:text-slate-100 text-lg md:text-xl font-bold mb-3 md:mb-4">Thermal &amp; Cleaning</h2>
+          <h2 data-reveal="words" className="text-slate-900 dark:text-slate-100 text-lg md:text-xl font-bold mb-3 md:mb-4"><SplitWords text="Thermal & Cleaning" /></h2>
           <div className="space-y-3 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 lg:gap-6">
             <ServiceCard
               icon={Droplets}
@@ -144,7 +145,7 @@ export default function Services() {
         </section>
 
         <section className="mb-8">
-          <h2 className="text-slate-900 dark:text-slate-100 text-lg md:text-xl font-bold mb-1 md:mb-2">Bundles</h2>
+          <h2 data-reveal="words" className="text-slate-900 dark:text-slate-100 text-lg md:text-xl font-bold mb-1 md:mb-2"><SplitWords text="Bundles" /></h2>
           <p className="text-slate-500 dark:text-slate-400 text-sm mb-3 md:mb-4">These repairs are common on the same console, so we bundle them and pass the savings on. Bundled work is done in a single visit.</p>
           <div className="space-y-3 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 lg:gap-6">
             <ServiceCard
@@ -190,7 +191,7 @@ export default function Services() {
         </section>
 
         <section className="mb-8">
-          <h2 className="text-slate-900 dark:text-slate-100 text-lg md:text-xl font-bold mb-3 md:mb-4">Controller Repairs</h2>
+          <h2 data-reveal="words" className="text-slate-900 dark:text-slate-100 text-lg md:text-xl font-bold mb-3 md:mb-4"><SplitWords text="Controller Repairs" /></h2>
           <div className="space-y-3 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 lg:gap-6">
             <ServiceCard
               icon={Joystick}
@@ -205,7 +206,7 @@ export default function Services() {
         </section>
 
         <section>
-          <h2 className="text-slate-900 dark:text-slate-100 text-lg md:text-xl font-bold mb-3 md:mb-4">Parts &amp; Accessories</h2>
+          <h2 data-reveal="words" className="text-slate-900 dark:text-slate-100 text-lg md:text-xl font-bold mb-3 md:mb-4"><SplitWords text="Parts & Accessories" /></h2>
           <div className="space-y-3 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 lg:gap-6">
             <ServiceCard
               icon={Plug}
@@ -217,7 +218,7 @@ export default function Services() {
           </div>
         </section>
 
-        <div className="mt-8 p-5 bg-primary/5 rounded-xl border border-primary/10">
+        <div data-reveal="mask" className="mt-8 p-5 bg-primary/5 rounded-xl border border-primary/10">
           <div className="flex gap-3 mb-2">
             <ShieldCheck className="w-6 h-6 text-primary" />
             <h3 className="text-slate-900 dark:text-slate-100 font-bold">40-Day Warranty</h3>
@@ -229,7 +230,7 @@ export default function Services() {
       </main>
 
       <div className="fixed bottom-0 left-0 right-0 w-full p-4 md:p-8 bg-gradient-to-t from-background-light via-background-light to-transparent dark:from-background-dark dark:via-background-dark pt-12 pointer-events-none z-40 flex justify-center">
-        <a href="sms:+13466674364?body=Hi!%20I%20would%20like%20to%20book%20an%20appointment%20for%20a%20console%20repair." className="pointer-events-auto w-full max-w-sm bg-gradient-to-r from-primary via-cyan-400 to-primary animate-gradient-x hover:brightness-110 text-white font-bold py-4 px-6 rounded-xl shadow-lg shadow-primary/30 flex items-center justify-center gap-2 transition-all active:scale-[0.98] text-base">
+        <a href="sms:+13466674364?body=Hi!%20I%20would%20like%20to%20book%20an%20appointment%20for%20a%20console%20repair." className="pop [--pop-delay:0.9s] pointer-events-auto w-full max-w-sm bg-gradient-to-r from-primary via-cyan-400 to-primary animate-gradient-x hover:brightness-110 text-white font-bold py-4 px-6 rounded-xl shadow-lg shadow-primary/30 flex items-center justify-center gap-2 transition-all active:scale-[0.98] text-base">
           <Calendar className="w-6 h-6" />
           Book Appointment
         </a>

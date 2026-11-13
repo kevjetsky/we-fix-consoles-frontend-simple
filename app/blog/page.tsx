@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ArrowLeft, Clock, ArrowRight, Facebook, Instagram } from 'lucide-react';
 
 import { articles } from '@/lib/articles';
+import { SplitWords } from '@/components/SplitWords';
 
 export const metadata = {
     title: 'Blog',
@@ -22,20 +23,20 @@ export default function BlogPage() {
 
             <main className="flex-1 w-full flex flex-col text-left max-w-6xl mx-auto px-5 py-8 md:py-16">
                 <div className="mb-10 w-full">
-                    <h1 className="text-4xl md:text-5xl font-extrabold text-text-main dark:text-white leading-tight mb-4 tracking-tight">
-                        Our Blog
+                    <h1 className="words-now text-4xl md:text-5xl font-extrabold text-text-main dark:text-white leading-tight mb-4 tracking-tight">
+                        <SplitWords text="Our Blog" />
                     </h1>
-                    <p className="text-text-muted dark:text-slate-400 text-base md:text-xl leading-relaxed max-w-2xl">
+                    <p className="rise [--rise-delay:0.3s] text-text-muted dark:text-slate-400 text-base md:text-xl leading-relaxed max-w-2xl">
                         Insights, guides, and repair tips straight from our tech bench. Level up your console knowledge today.
                     </p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full pb-10">
                     {articles.map(article => (
-                        <article key={article.id} className="group relative flex flex-col bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden hover:shadow-lg hover:shadow-primary/5 transition-all active:scale-[0.98]">
+                        <article key={article.id} data-reveal="mask" className="group relative flex flex-col bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden hover:shadow-lg hover:shadow-primary/5 transition-all active:scale-[0.98]">
                             <Link href={`/blog/${article.slug}`} className="absolute inset-0 z-10" aria-label={`Read article: ${article.title}`}></Link>
-                            <div className={`h-48 w-full bg-gradient-to-br ${article.imageColor} relative border-b border-black/5 dark:border-white/5 flex items-center justify-center opacity-90 group-hover:opacity-100 transition-opacity`}>
-                                {/* Optional placeholder icon could go here */}
+                            <div className="arrow-wipe h-48 w-full border-b border-black/5 dark:border-white/5">
+                                <div className={`arrow-wipe__fill bg-gradient-to-br ${article.imageColor} opacity-90 group-hover:opacity-100 transition-opacity`} />
                             </div>
                             <div className="p-6 flex flex-col flex-1">
                                 <div className="flex items-center gap-3 mb-4">

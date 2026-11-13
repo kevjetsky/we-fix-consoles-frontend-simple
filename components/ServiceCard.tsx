@@ -30,7 +30,7 @@ export function ServiceCard({
   const content = (
     <>
       <div className="flex items-center justify-center rounded-lg bg-primary/10 text-primary shrink-0 size-12 group-hover:bg-primary group-hover:text-white transition-colors">
-        <Icon className="w-6 h-6" />
+        <Icon className="jump-on-hover w-6 h-6" />
       </div>
       <div className="flex-1 min-w-0 flex flex-col text-left">
         <h3 className={`text-slate-900 dark:text-slate-100 text-base font-bold leading-normal ${titleTruncate ? 'truncate' : ''}`.trim()}>
@@ -62,14 +62,14 @@ export function ServiceCard({
 
   if (href) {
     return (
-      <Link href={href} className={containerClasses}>
+      <Link href={href} className={containerClasses} data-reveal="mask">
         {content}
       </Link>
     );
   }
 
   return (
-    <div className={containerClasses}>
+    <div className={containerClasses} data-reveal="mask">
       {content}
     </div>
   );

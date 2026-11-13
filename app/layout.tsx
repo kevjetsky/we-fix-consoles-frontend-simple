@@ -1,7 +1,13 @@
 import type { Metadata } from 'next';
 import { Fredoka } from 'next/font/google';
 import './globals.css'; // Global styles
+import './motions.css';
 import { GoogleAnalytics } from '@next/third-parties/google';
+import { MotionObserver } from '@/components/MotionObserver';
+
+// Turns animations on before first paint unless the visitor prefers reduced motion.
+// If the app script never boots, the class is removed so nothing stays hidden.
+const MOTION_BOOT = `(function(){try{if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;var d=document.documentElement;d.classList.add('motion');setTimeout(function(){if(!window.__wfcMotion)d.classList.remove('motion')},4000)}catch(e){}})();`;
 
 const fredoka = Fredoka({
   subsets: ['latin'],
@@ -83,6 +89,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={fredoka.variable} suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: MOTION_BOOT }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -93,6 +100,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div className="relative flex flex-col min-h-screen w-full bg-white dark:bg-slate-900 overflow-hidden">
           {children}
         </div>
+        <MotionObserver />
         <GoogleAnalytics gaId="G-XCPXYK6RD2" />
       </body>
     </html>
