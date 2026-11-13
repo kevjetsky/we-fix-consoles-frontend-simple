@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { ArrowRight, MessageSquare, ShieldCheck, Truck, Banknote, Phone, Cable, Droplets, Sparkles, Facebook, Instagram } from 'lucide-react';
 import { ServiceCard } from '@/components/ServiceCard';
 import { GoogleReviewButton } from '@/components/GoogleReviewButton';
-import { SplitWords } from '@/components/SplitWords';
 
 
 export default function Home() {
@@ -13,18 +12,18 @@ export default function Home() {
     <>
       <main className="flex-1 overflow-y-auto scrollbar-hide flex flex-col items-center w-full">
         <section className="px-5 pt-8 md:pt-20 pb-10 flex flex-col items-center text-center w-full max-w-4xl mx-auto">
-          <div className="pop inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-1.5 rounded-full text-sm font-bold mt-4 mb-4">
-            <Truck className="w-4 h-4" />
+          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-1.5 rounded-full text-sm font-bold mt-4 mb-4">
+            <Truck className="icon-pop-now [--pop-delay:0.15s] w-4 h-4" />
             100% Mobile — We Come to You
           </div>
           <h2 className="text-4xl md:text-6xl font-extrabold text-text-main dark:text-white leading-tight mb-4 tracking-tight">
-            <span className="wipe [--wipe-delay:0.15s]"><span className="wipe__text">WE FIX CONSOLES</span></span><br />
-            <span className="wipe [--wipe-delay:0.35s]"><span className="wipe__text text-primary">At Your Door.</span></span>
+            WE FIX CONSOLES<br />
+            <span className="text-primary">At Your Door.</span>
           </h2>
-          <p className="rise [--rise-delay:1.1s] text-text-muted dark:text-slate-400 text-base md:text-xl leading-relaxed max-w-[320px] md:max-w-xl mb-8">
+          <p className="text-text-muted dark:text-slate-400 text-base md:text-xl leading-relaxed max-w-[320px] md:max-w-xl mb-8">
             Skip the repair shop — we drive to your home anywhere in Houston. We repair PlayStation 5, PlayStation 4, Xbox Series X/S, and Xbox One consoles on the spot, backed by a 40-day warranty and a no-fix, no-fee guarantee.
           </p>
-          <div className="rise [--rise-delay:1.25s] flex flex-col md:flex-row w-full max-w-sm md:max-w-2xl gap-3 md:gap-6 justify-center">
+          <div className="flex flex-col md:flex-row w-full max-w-sm md:max-w-2xl gap-3 md:gap-6 justify-center">
             <Link href="/services" className="w-full h-14 bg-gradient-to-r from-primary via-cyan-400 to-primary animate-gradient-x hover:brightness-110 active:scale-[0.98] transition-all text-white rounded-xl font-bold text-base shadow-lg shadow-primary/25 flex items-center justify-center gap-2">
               View Services
               <ArrowRight className="w-5 h-5" />
@@ -35,35 +34,33 @@ export default function Home() {
             </a>
           </div>
 
-          <div className="rise [--rise-delay:1.4s]">
-            <GoogleReviewButton />
-          </div>
+          <GoogleReviewButton />
         </section>
 
         <section className="px-5 py-6 md:py-10 w-full max-w-7xl mx-auto">
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            <div data-reveal="mask" className="bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex flex-col items-start gap-3">
-              <div className="pop-on-reveal w-10 h-10 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 flex items-center justify-center">
-                <Truck className="w-6 h-6" />
+            <div className="group bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex flex-col items-start gap-3">
+              <div className="icon-pop w-10 h-10 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 flex items-center justify-center">
+                <Truck className="icon-jump w-6 h-6" />
               </div>
               <div className="text-left">
                 <h3 className="font-bold text-text-main dark:text-white">We Come to You</h3>
                 <p className="text-xs text-text-muted dark:text-slate-400 mt-1">Repairs at your doorstep — no shop visit, no shipping.</p>
               </div>
             </div>
-            <div data-reveal="mask" className="bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex flex-col items-start gap-3">
-              <div className="pop-on-reveal w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center">
-                <ShieldCheck className="w-6 h-6" />
+            <div className="group bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex flex-col items-start gap-3">
+              <div className="icon-pop w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center">
+                <ShieldCheck className="icon-jump w-6 h-6" />
               </div>
               <div className="text-left">
                 <h3 className="font-bold text-text-main dark:text-white">40-Day Warranty</h3>
                 <p className="text-xs text-text-muted dark:text-slate-400 mt-1">Peace of mind included.</p>
               </div>
             </div>
-            <div data-reveal="mask" className="bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex flex-col items-start gap-3 col-span-2 lg:col-span-1">
+            <div className="group bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex flex-col items-start gap-3 col-span-2 lg:col-span-1">
               <div className="flex items-center gap-3 mb-1">
-                <div className="pop-on-reveal w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 flex items-center justify-center">
-                  <Banknote className="w-6 h-6" />
+                <div className="icon-pop w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 flex items-center justify-center">
+                  <Banknote className="icon-jump w-6 h-6" />
                 </div>
                 <h3 className="font-bold text-text-main dark:text-white">No Repair, No Fee</h3>
               </div>
@@ -74,7 +71,7 @@ export default function Home() {
 
         <section className="px-5 py-6 md:py-10 w-full max-w-7xl mx-auto">
           <div className="flex items-center justify-between mb-4 md:mb-8">
-            <h3 data-reveal="words" className="text-lg md:text-2xl font-bold text-text-main dark:text-white"><SplitWords text="Popular Repairs" /></h3>
+            <h3 className="text-lg md:text-2xl font-bold text-text-main dark:text-white">Popular Repairs</h3>
             <Link href="/services" className="text-primary text-sm md:text-base font-semibold hover:text-primary-dark">View all</Link>
           </div>
           <div className="space-y-3 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 lg:gap-6">
@@ -113,8 +110,8 @@ export default function Home() {
         </section>
 
         <section className="px-5 py-6 md:py-10 w-full max-w-7xl mx-auto">
-          <div data-reveal="mask" className="bg-slate-50 dark:bg-slate-800/50 rounded-3xl p-8 md:p-12 border border-slate-100 dark:border-slate-800 flex flex-col items-center text-center shadow-sm">
-            <h3 data-reveal="words" className="text-2xl md:text-4xl font-extrabold text-text-main dark:text-white mb-4"><SplitWords text="Level Up Your Console Knowledge" /></h3>
+          <div className="bg-slate-50 dark:bg-slate-800/50 rounded-3xl p-8 md:p-12 border border-slate-100 dark:border-slate-800 flex flex-col items-center text-center shadow-sm">
+            <h3 className="text-2xl md:text-4xl font-extrabold text-text-main dark:text-white mb-4">Level Up Your Console Knowledge</h3>
             <p className="text-slate-500 dark:text-slate-400 text-sm md:text-lg max-w-2xl mb-8">
               Check out our latest guides, repair tips, and gaming news on the We-Fix-Consoles blog.
             </p>
@@ -126,11 +123,11 @@ export default function Home() {
         </section>
 
         <section className="px-5 py-6 md:py-12 w-full max-w-4xl mx-auto">
-          <div data-reveal="mask" className="bg-gradient-to-br from-primary to-blue-700 rounded-2xl p-6 md:p-12 text-white text-center shadow-lg shadow-blue-500/20">
+          <div className="bg-gradient-to-br from-primary to-blue-700 rounded-2xl p-6 md:p-12 text-white text-center shadow-lg shadow-blue-500/20">
             <h3 className="text-xl md:text-3xl font-bold mb-2 md:mb-4">PlayStation or Xbox not working?</h3>
             <p className="text-blue-100 text-sm md:text-lg mb-6 md:mb-8 max-w-xl mx-auto">Our experts come straight to your door and diagnose your console on the spot, from HDMI ports to crashing and overheating.</p>
-            <a href="tel:+13466674364" className="w-full md:w-auto md:px-12 h-12 md:h-14 bg-white text-primary font-bold rounded-xl flex items-center justify-center gap-2 hover:bg-blue-50 transition-colors mx-auto text-base">
-              <span className="ripple"><Phone className="w-5 h-5" /></span>
+            <a href="tel:+13466674364" className="group w-full md:w-auto md:px-12 h-12 md:h-14 bg-white text-primary font-bold rounded-xl flex items-center justify-center gap-2 hover:bg-blue-50 transition-colors mx-auto text-base">
+              <Phone className="icon-jump w-5 h-5" />
               Call for Free Advice
             </a>
           </div>
