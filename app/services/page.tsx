@@ -1,8 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowLeft, Stethoscope, Cable, Cpu, Wind, Fan, Droplets, Thermometer, Sparkles, SprayCan, Brush, Package, PackagePlus, Joystick, ShieldCheck, Calendar, EthernetPort, Power, Disc3, Usb, Plug } from 'lucide-react';
+import { ArrowLeft, ShieldCheck, Calendar } from 'lucide-react';
 import { ServiceCard } from '@/components/ServiceCard';
+import { serviceCategories, formatPrice } from '@/lib/services';
+
+const FREE_BADGE = (
+  <div className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-3 py-1 rounded-full text-xs font-bold">FREE</div>
+);
 
 export default function Services() {
   return (
@@ -19,205 +24,34 @@ export default function Services() {
       <main className="flex-1 flex flex-col p-4 md:p-10 lg:px-24 pb-32 w-full max-w-7xl mx-auto">
         <div className="mb-6 md:mb-10 text-center md:text-left">
           <h1 className="text-slate-900 dark:text-slate-100 text-[32px] md:text-5xl font-extrabold leading-tight tracking-tight">Repair Services</h1>
-          <p className="text-slate-500 dark:text-slate-400 mt-2 md:mt-4 text-sm md:text-lg">Transparent pricing, and we come to you — every repair is done at your door, anywhere in Houston. All prices plus tax.</p>
+          <p className="text-slate-500 dark:text-slate-400 mt-2 md:mt-4 text-sm md:text-lg">Upfront pricing, and we come to you — every repair is done at your door, anywhere in Houston. Diagnostics are always free; all other prices are plus tax.</p>
         </div>
 
-        <section className="mb-8">
-          <h2 className="text-slate-900 dark:text-slate-100 text-lg md:text-xl font-bold mb-3 md:mb-4">Diagnostics</h2>
-          <div className="space-y-3 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 lg:gap-6">
-            <ServiceCard
-              icon={Stethoscope}
-              title="Diagnostic"
-              description="Issue identification"
-              price={<div className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-3 py-1 rounded-full text-xs font-bold">FREE</div>}
-              turnaround="Same Day"
-              showTax={false}
-            />
-          </div>
-        </section>
+        {serviceCategories.map((category) => (
+          <section key={category.id} className="mb-8">
+            <h2 className={`text-slate-900 dark:text-slate-100 text-lg md:text-xl font-bold ${category.intro ? 'mb-1 md:mb-2' : 'mb-3 md:mb-4'}`}>{category.title}</h2>
+            {category.intro && (
+              <p className="text-slate-500 dark:text-slate-400 text-sm mb-3 md:mb-4">{category.intro}</p>
+            )}
+            <div className="space-y-3 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 lg:gap-6">
+              {category.services.map((service) => (
+                <ServiceCard
+                  key={service.id}
+                  icon={service.icon}
+                  title={service.title}
+                  description={service.description}
+                  price={service.price === 0 ? FREE_BADGE : formatPrice(service.price)}
+                  turnaround={service.turnaround}
+                  showTax={service.price > 0}
+                  titleTruncate={false}
+                  descriptionHighlight={service.highlight}
+                />
+              ))}
+            </div>
+          </section>
+        ))}
 
-        <section className="mb-8">
-          <h2 className="text-slate-900 dark:text-slate-100 text-lg md:text-xl font-bold mb-3 md:mb-4">Console Repairs</h2>
-          <div className="space-y-3 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 lg:gap-6">
-            <ServiceCard
-              icon={Cable}
-              title="HDMI Port Repair"
-              description="Standard replacement"
-              price="$99.99"
-              turnaround="Same Day"
-            />
-
-            <ServiceCard
-              icon={Cpu}
-              title="HDMI Port Repair (Advanced)"
-              description="Trace/pads repair included"
-              price="$119.99"
-              turnaround="1-2 Days"
-              titleTruncate={false}
-              descriptionHighlight
-            />
-
-            <ServiceCard
-              icon={EthernetPort}
-              title="Ethernet Port Repair"
-              description="LAN port replacement"
-              price="$99.99"
-              turnaround="Same Day"
-              titleTruncate={false}
-            />
-
-            <ServiceCard
-              icon={Usb}
-              title="USB Port Repair"
-              description="Port replacement"
-              price="$99.99"
-              turnaround="Same Day"
-            />
-
-            <ServiceCard
-              icon={Power}
-              title="Power Supply Replacement"
-              description="Full unit replacement"
-              price="$119.99"
-              turnaround="Same Day"
-              titleTruncate={false}
-            />
-
-            <ServiceCard
-              icon={Disc3}
-              title="Disk Drive Replacement"
-              description="Disc drive swap"
-              price="$95"
-              turnaround="Same Day"
-              titleTruncate={false}
-            />
-
-            <ServiceCard
-              icon={Fan}
-              title="Fan Replacement"
-              description="Cooling fan swap"
-              price="$79.99"
-              turnaround="Same Day"
-            />
-          </div>
-        </section>
-
-        <section className="mb-8">
-          <h2 className="text-slate-900 dark:text-slate-100 text-lg md:text-xl font-bold mb-3 md:mb-4">Thermal &amp; Cleaning</h2>
-          <div className="space-y-3 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 lg:gap-6">
-            <ServiceCard
-              icon={Droplets}
-              title="Liquid Metal Replacement"
-              description="PS5 — includes fan and heatsink cleaning"
-              price="$89.99"
-              turnaround="Same Day"
-              titleTruncate={false}
-            />
-
-            <ServiceCard
-              icon={Thermometer}
-              title="Thermal Paste Replacement"
-              description="PS4 / Xbox Series X|S / Xbox One — includes fan and heatsink cleaning"
-              price="$79.99"
-              turnaround="Same Day"
-              titleTruncate={false}
-            />
-
-            <ServiceCard
-              icon={Sparkles}
-              title="Full Deep Clean"
-              description="Complete teardown and internal cleaning, no thermal service"
-              price="$69.99"
-              turnaround="Same Day"
-              titleTruncate={false}
-            />
-
-            <ServiceCard
-              icon={Wind}
-              title="Quick Vent Blowout"
-              description="External dust removal"
-              price="$29.99"
-              turnaround="Same Day"
-              titleTruncate={false}
-            />
-          </div>
-        </section>
-
-        <section className="mb-8">
-          <h2 className="text-slate-900 dark:text-slate-100 text-lg md:text-xl font-bold mb-1 md:mb-2">Bundles</h2>
-          <p className="text-slate-500 dark:text-slate-400 text-sm mb-3 md:mb-4">These repairs are common on the same console, so we bundle them and pass the savings on. Bundled work is done in a single visit.</p>
-          <div className="space-y-3 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 lg:gap-6">
-            <ServiceCard
-              icon={Package}
-              title="HDMI + Liquid Metal"
-              description="PS5 — HDMI port replacement, liquid metal, fan and heatsink cleaning"
-              price="$169.99"
-              turnaround="Same Day"
-              titleTruncate={false}
-              descriptionHighlight
-            />
-
-            <ServiceCard
-              icon={PackagePlus}
-              title="HDMI + Liquid Metal + Full Deep Clean"
-              description="PS5 — everything above plus complete internal teardown and cleaning"
-              price="$219.99"
-              turnaround="Same Day"
-              titleTruncate={false}
-              descriptionHighlight
-            />
-
-            <ServiceCard
-              icon={SprayCan}
-              title="Liquid Metal + Full Deep Clean"
-              description="PS5"
-              price="$139.99"
-              turnaround="Same Day"
-              titleTruncate={false}
-              descriptionHighlight
-            />
-
-            <ServiceCard
-              icon={Brush}
-              title="Thermal Paste + Full Deep Clean"
-              description="PS4 / Xbox Series X|S / Xbox One"
-              price="$119.99"
-              turnaround="Same Day"
-              titleTruncate={false}
-              descriptionHighlight
-            />
-          </div>
-        </section>
-
-        <section className="mb-8">
-          <h2 className="text-slate-900 dark:text-slate-100 text-lg md:text-xl font-bold mb-3 md:mb-4">Controller Repairs</h2>
-          <div className="space-y-3 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 lg:gap-6">
-            <ServiceCard
-              icon={Joystick}
-              title="Controller Refresh"
-              description="Both sticks replaced + full cleaning"
-              price="$45"
-              turnaround="Same Day"
-              titleTruncate={false}
-              descriptionHighlight
-            />
-          </div>
-        </section>
-
-        <section>
-          <h2 className="text-slate-900 dark:text-slate-100 text-lg md:text-xl font-bold mb-3 md:mb-4">Parts &amp; Accessories</h2>
-          <div className="space-y-3 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 lg:gap-6">
-            <ServiceCard
-              icon={Plug}
-              title="HDMI Cable"
-              description="High-speed 4K HDMI cable"
-              price="$10"
-              turnaround="In Stock"
-            />
-          </div>
-        </section>
-
-        <div className="mt-8 p-5 bg-primary/5 rounded-xl border border-primary/10">
+        <div className="p-5 bg-primary/5 rounded-xl border border-primary/10">
           <div className="flex gap-3 mb-2">
             <ShieldCheck className="icon-pop w-6 h-6 text-primary" />
             <h3 className="text-slate-900 dark:text-slate-100 font-bold">40-Day Warranty</h3>

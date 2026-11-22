@@ -4,6 +4,7 @@ import './globals.css'; // Global styles
 import './motions.css';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { MotionObserver } from '@/components/MotionObserver';
+import { allServices } from '@/lib/services';
 
 // Turns animations on before first paint unless the visitor prefers reduced motion.
 // If the app script never boots, the class is removed so nothing stays hidden.
@@ -57,32 +58,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       addressRegion: 'TX',
       addressCountry: 'US'
     },
-    makesOffer: [
-      { name: 'Diagnostic', description: 'Issue identification', price: '0.00' },
-      { name: 'HDMI Port Repair', description: 'Standard replacement', price: '99.99' },
-      { name: 'HDMI Port Repair (Advanced)', description: 'Trace/pads repair included', price: '119.99' },
-      { name: 'Ethernet Port Repair', description: 'LAN port replacement', price: '99.99' },
-      { name: 'USB Port Repair', description: 'Port replacement', price: '99.99' },
-      { name: 'Power Supply Replacement', description: 'Full unit replacement', price: '119.99' },
-      { name: 'Disk Drive Replacement', description: 'Disc drive swap', price: '95.00' },
-      { name: 'Fan Replacement', description: 'Cooling fan swap', price: '79.99' },
-      { name: 'Liquid Metal Replacement', description: 'PS5 — includes fan and heatsink cleaning', price: '89.99' },
-      { name: 'Thermal Paste Replacement', description: 'PS4 / Xbox Series X|S / Xbox One — includes fan and heatsink cleaning', price: '79.99' },
-      { name: 'Full Deep Clean', description: 'Complete teardown and internal cleaning, no thermal service', price: '69.99' },
-      { name: 'HDMI + Liquid Metal', description: 'PS5 — HDMI port replacement, liquid metal, fan and heatsink cleaning', price: '169.99' },
-      { name: 'HDMI + Liquid Metal + Full Deep Clean', description: 'PS5 — HDMI port replacement, liquid metal, fan and heatsink cleaning, plus complete internal teardown and cleaning', price: '219.99' },
-      { name: 'Liquid Metal + Full Deep Clean', description: 'PS5', price: '139.99' },
-      { name: 'Thermal Paste + Full Deep Clean', description: 'PS4 / Xbox Series X|S / Xbox One', price: '119.99' },
-      { name: 'Quick Vent Blowout', description: 'External dust removal', price: '29.99' },
-      { name: 'Controller Refresh', description: 'Both sticks replaced + full cleaning', price: '45.00' },
-      { name: 'HDMI Cable', description: 'High-speed 4K HDMI cable', price: '10.00' },
-    ].map((offer) => ({
+    makesOffer: allServices.map((offer) => ({
       '@type': 'Offer',
-      name: offer.name,
+      name: offer.title,
       description: offer.description,
-      price: offer.price,
+      price: offer.price.toFixed(2),
       priceCurrency: 'USD',
-      itemOffered: { '@type': 'Service', name: offer.name, description: offer.description },
+      itemOffered: { '@type': 'Service', name: offer.title, description: offer.description },
     })),
   };
 

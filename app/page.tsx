@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ArrowRight, MessageSquare, ShieldCheck, Truck, Banknote, Phone, Cable, Droplets, Sparkles, Facebook, Instagram } from 'lucide-react';
 import { ServiceCard } from '@/components/ServiceCard';
 import { GoogleReviewButton } from '@/components/GoogleReviewButton';
+import { getService, formatPrice } from '@/lib/services';
 
 
 export default function Home() {
@@ -80,7 +81,7 @@ export default function Home() {
               icon={Cable}
               title="HDMI Port Replacement"
               description='Fix "No Signal" or Black Screen'
-              price="$99.99"
+              price={formatPrice(getService('hdmi-port').price)}
               turnaround="Same Day"
               titleTruncate={false}
               descriptionTruncate
@@ -89,9 +90,9 @@ export default function Home() {
             <ServiceCard
               href="/services"
               icon={Droplets}
-              title="Liquid Metal Replacement"
-              description="Fix overheating and loud fan noise"
-              price="$89.99"
+              title="Deep Clean + Liquid Metal"
+              description="PS5 — fix overheating and loud fan noise"
+              price={formatPrice(getService('deep-clean-liquid-metal').price)}
               turnaround="Same Day"
               titleTruncate={false}
               descriptionTruncate
@@ -102,7 +103,7 @@ export default function Home() {
               icon={Sparkles}
               title="Full Deep Clean"
               description="Complete internal teardown and cleaning"
-              price="$69.99"
+              price={formatPrice(getService('deep-clean').price)}
               turnaround="Same Day"
               descriptionTruncate
             />
