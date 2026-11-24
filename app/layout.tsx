@@ -5,6 +5,7 @@ import './motions.css';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { MotionObserver } from '@/components/MotionObserver';
 import { allServices } from '@/lib/services';
+import { LeadCapture } from '@/components/booking/LeadCapture';
 
 // Turns animations on before first paint unless the visitor prefers reduced motion.
 // If the app script never boots, the class is removed so nothing stays hidden.
@@ -83,6 +84,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
         </div>
         <MotionObserver />
+        {process.env.NEXT_PUBLIC_BOOKING_API && <LeadCapture />}
         <GoogleAnalytics gaId="G-XCPXYK6RD2" />
       </body>
     </html>

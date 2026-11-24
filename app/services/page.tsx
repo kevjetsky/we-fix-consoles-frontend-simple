@@ -5,6 +5,9 @@ import { ArrowLeft, ShieldCheck, Calendar } from 'lucide-react';
 import { ServiceCard } from '@/components/ServiceCard';
 import { serviceCategories, formatPrice } from '@/lib/services';
 
+// Beta deployment only: the text button opens the online booking page.
+const BOOKING_BETA = process.env.NEXT_PUBLIC_BOOKING_BETA === '1';
+
 const FREE_BADGE = (
   <div className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-3 py-1 rounded-full text-xs font-bold">FREE</div>
 );
@@ -63,10 +66,17 @@ export default function Services() {
       </main>
 
       <div className="fixed bottom-0 left-0 right-0 w-full p-4 md:p-8 bg-gradient-to-t from-background-light via-background-light to-transparent dark:from-background-dark dark:via-background-dark pt-12 pointer-events-none z-40 flex justify-center">
-        <a href="sms:+13466674364?body=Hi!%20I%20would%20like%20to%20book%20an%20appointment%20for%20a%20console%20repair." className="pointer-events-auto w-full max-w-sm bg-gradient-to-r from-primary via-cyan-400 to-primary animate-gradient-x hover:brightness-110 text-white font-bold py-4 px-6 rounded-xl shadow-lg shadow-primary/30 flex items-center justify-center gap-2 transition-all active:scale-[0.98] text-base">
-          <Calendar className="w-6 h-6" />
-          Book Appointment
-        </a>
+        {BOOKING_BETA ? (
+          <Link href="/book" className="pointer-events-auto w-full max-w-sm bg-gradient-to-r from-primary via-cyan-400 to-primary animate-gradient-x hover:brightness-110 text-white font-bold py-4 px-6 rounded-xl shadow-lg shadow-primary/30 flex items-center justify-center gap-2 transition-all active:scale-[0.98] text-base">
+            <Calendar className="w-6 h-6" />
+            Book Appointment
+          </Link>
+        ) : (
+          <a href="sms:+13466674364?body=Hi!%20I%20would%20like%20to%20book%20an%20appointment%20for%20a%20console%20repair." className="pointer-events-auto w-full max-w-sm bg-gradient-to-r from-primary via-cyan-400 to-primary animate-gradient-x hover:brightness-110 text-white font-bold py-4 px-6 rounded-xl shadow-lg shadow-primary/30 flex items-center justify-center gap-2 transition-all active:scale-[0.98] text-base">
+            <Calendar className="w-6 h-6" />
+            Book Appointment
+          </a>
+        )}
       </div>
     </div>
   );

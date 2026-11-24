@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:beta": "NEXT_PUBLIC_BOOKING_BETA=1 NEXT_PUBLIC_BOOKING_API=https://kpital-os-beta.kevjetsky.workers.dev/api/public/booking NEXT_PUBLIC_TURNSTILE_SITE_KEY=1x00000000000000000000BB next build",
     "start": "next start -H 0.0.0.0 -p ${PORT:-8080}",
     "lint": "eslint .",
     "clean": "next clean"

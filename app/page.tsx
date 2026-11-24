@@ -2,10 +2,13 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, MessageSquare, ShieldCheck, Truck, Banknote, Phone, Cable, Droplets, Sparkles, Facebook, Instagram } from 'lucide-react';
+import { ArrowRight, CalendarCheck, MessageSquare, ShieldCheck, Truck, Banknote, Phone, Cable, Droplets, Sparkles, Facebook, Instagram } from 'lucide-react';
 import { ServiceCard } from '@/components/ServiceCard';
 import { GoogleReviewButton } from '@/components/GoogleReviewButton';
 import { getService, formatPrice } from '@/lib/services';
+
+// Beta deployment only: the text button opens the online booking page.
+const BOOKING_BETA = process.env.NEXT_PUBLIC_BOOKING_BETA === '1';
 
 
 export default function Home() {
@@ -29,10 +32,17 @@ export default function Home() {
               View Services
               <ArrowRight className="w-5 h-5" />
             </Link>
-            <a href="sms:+13466674364?body=Hi!%20I'd%20like%20a%20repair%20quote.%20My%20console%20is%20a%20[Console%20Model]%20and%20the%20problem%20is%20[Describe%20Issue]." className="w-full h-14 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 active:scale-[0.98] transition-all text-text-main dark:text-white rounded-xl font-bold text-base flex items-center justify-center gap-2">
-              <MessageSquare className="w-5 h-5 text-primary" />
-              Get SMS Quote
-            </a>
+            {BOOKING_BETA ? (
+              <Link href="/book" className="w-full h-14 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 active:scale-[0.98] transition-all text-text-main dark:text-white rounded-xl font-bold text-base flex items-center justify-center gap-2">
+                <CalendarCheck className="w-5 h-5 text-primary" />
+                Book Online
+              </Link>
+            ) : (
+              <a href="sms:+13466674364?body=Hi!%20I'd%20like%20a%20repair%20quote.%20My%20console%20is%20a%20[Console%20Model]%20and%20the%20problem%20is%20[Describe%20Issue]." className="w-full h-14 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 active:scale-[0.98] transition-all text-text-main dark:text-white rounded-xl font-bold text-base flex items-center justify-center gap-2">
+                <MessageSquare className="w-5 h-5 text-primary" />
+                Get SMS Quote
+              </a>
+            )}
           </div>
 
           <GoogleReviewButton />
