@@ -4,18 +4,16 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import {
   ArrowLeft,
-  Cable,
+  BadgeCheck,
   CalendarPlus,
   Check,
   Clock,
-  Gamepad2,
   HelpCircle,
   Loader2,
   MapPin,
   MessageSquare,
   Phone,
   ShieldCheck,
-  Sparkles,
   Star,
   Wrench,
 } from "lucide-react";
@@ -29,37 +27,51 @@ import {
   SMS_LINK,
   api,
   captureLead,
-  endPlacesSession,
   formatPhoneInput,
   googleCalendarLink,
   icsDataUri,
-  placesEnabled,
   prepareTurnstile,
   readLead,
-  suggestAddresses,
+  smsLink,
   track,
   turnstileToken,
   uuid,
 } from "@/lib/booking/api";
 
 const STEPS = ["address", "service", "day", "time", "details", "confirm"];
-const SERVICE_IDS = ["hdmi", "cleaning", "controller", "stick_drift", "other"];
-const CONSOLE_IDS = ["ps5", "ps5_slim", "ps5_pro", "xbox_series_x", "xbox_series_s", "ps4", "xbox_one", "other"];
-const SYMPTOM_IDS = ["overheating", "loud_fan", "shutting_off", "maintenance"];
-const SERVICE_ICONS = { hdmi: Cable, cleaning: Sparkles, controller: Gamepad2, stick_drift: Gamepad2, other: HelpCircle };
+// Each bookable service: its entry in the site's price list (lib/services) and
+// which devices it is for. Liquid metal is PS5 only; stick drift is controllers only.
+const SERVICES = {
+  hdmi: { priceId: "hdmi-port", devices: "console" },
+  hdmi_liquid_metal: { priceId: "hdmi-liquid-metal", devices: "ps5" },
+  deep_clean: { priceId: "deep-clean", devices: "console" },
+  deep_clean_liquid_metal: { priceId: "deep-clean-liquid-metal", devices: "ps5" },
+  stick_drift: { priceId: "stick-drift", devices: "controller" },
+  fan_connector: { priceId: "fan-connector", devices: "console" },
+  other: { priceId: null, devices: "console", describe: true },
+};
+const SERVICE_IDS = Object.keys(SERVICES);
+const DEVICE_IDS = {
+  console: ["ps5", "ps5_slim", "ps5_pro", "xbox_series_x", "xbox_series_s", "ps4", "xbox_one", "other"],
+  ps5: ["ps5", "ps5_slim", "ps5_pro"],
+  controller: ["dualsense", "dualshock4", "xbox_controller", "other_controller"],
+};
 const JOB_MINUTES = 60;
 const IS_BETA = process.env.NEXT_PUBLIC_BOOKING_BETA === "1";
 
-function servicePrice(id) {
-  const ids = { hdmi: "hdmi-port", cleaning: "deep-clean", stick_drift: "stick-drift" };
-  if (id === "other") return 0;
-  if (!ids[id]) return null;
+function priceEntry(id) {
+  const priceId = SERVICES[id]?.priceId;
+  if (!priceId) return null;
   try {
-    return getService(ids[id]).price;
+    return getService(priceId);
   } catch {
     return null;
   }
 }
+
+const servicePrice = (id) => (SERVICES[id]?.describe ? 0 : priceEntry(id)?.price ?? null);
+const serviceIcon = (id) => priceEntry(id)?.icon || HelpCircle;
+const deviceLabel = (t, id) => t.consoles[id] || t.controllers[id] || "";
 
 const endOf = (startIso) => new Date(new Date(startIso).getTime() + JOB_MINUTES * 60000).toISOString();
 const mmss = (ms) => {
@@ -111,6 +123,18 @@ function CallTextButtons({ t }) {
   );
 }
 
+function TextButton({ t, bookingId }) {
+  return (
+    <a
+      href={smsLink(bookingId ? t.textBody(bookingId) : t.textBodyBook)}
+      className="h-14 rounded-xl font-bold text-base bg-primary text-white flex items-center justify-center gap-2 active:scale-[0.98] transition-all shadow-lg shadow-primary/25"
+    >
+      <MessageSquare className="w-5 h-5" />
+      {t.textUs(BUSINESS_PHONE_PRETTY)}
+    </a>
+  );
+}
+
 function Notice({ tone = "info", children }) {
   const tones = {
     info: "bg-primary/5 border-primary/20 text-text-main dark:text-slate-200",
@@ -155,11 +179,12 @@ function Field({ label, children, error }) {
 const inputClass =
   "w-full h-13 min-h-[52px] rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 text-base text-text-main dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary";
 
-function SummaryCard({ t, lang, area, service, consoleId, symptom, start, onEdit }) {
+function SummaryCard({ t, lang, area, service, consoleId, issue, start, onEdit }) {
+  const what = service ? `${t.services[service].label} · ${deviceLabel(t, consoleId)}${SERVICES[service]?.describe && issue.trim() ? `\n"${issue.trim()}"` : ""}` : "";
   const rows = [
     start && [t.when, `${longDayText(start, lang)}, ${windowText(start, endOf(start), t)}`, "time"],
     area && [t.where, area.address, "address"],
-    service && [t.what, `${t.services[service].label}${symptom ? ` (${t.symptoms[symptom]})` : ""} · ${t.consoles[consoleId] || ""}`, "service"],
+    service && [t.what, what, "service"],
   ].filter(Boolean);
   return (
     <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 p-4">
@@ -168,7 +193,7 @@ function SummaryCard({ t, lang, area, service, consoleId, symptom, start, onEdit
         {rows.map(([label, value, target]) => (
           <div key={label} className="flex items-start gap-3">
             <dt className="w-14 shrink-0 text-sm text-text-muted dark:text-slate-400">{label}</dt>
-            <dd className="flex-1 text-sm font-semibold text-text-main dark:text-white">{value}</dd>
+            <dd className="flex-1 text-sm font-semibold text-text-main dark:text-white whitespace-pre-line break-words">{value}</dd>
             {onEdit && (
               <button type="button" onClick={() => onEdit(target)} className="text-sm font-semibold text-primary shrink-0">
                 {t.edit}
@@ -192,11 +217,12 @@ export default function BookingFlow() {
   const [busy, setBusy] = useState(false);
 
   const [addressText, setAddressText] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
+  const [suggestions, setSuggestions] = useState({ exact: null, streets: [] });
+  const [suggestOpen, setSuggestOpen] = useState(false);
   const [area, setArea] = useState(null);
   const [service, setService] = useState("");
   const [consoleId, setConsoleId] = useState("");
-  const [symptom, setSymptom] = useState("");
+  const [issue, setIssue] = useState("");
   const [days, setDays] = useState(null);
   const [date, setDate] = useState("");
   const [slots, setSlots] = useState(null);
@@ -209,6 +235,12 @@ export default function BookingFlow() {
 
   const turnstileBox = useRef(null);
   const topRef = useRef(null);
+  const addressInput = useRef(null);
+  const deviceRef = useRef(null);
+  // Each keystroke starts a new suggestion round; older answers are dropped.
+  const suggestRound = useRef(0);
+  // The text a picked suggestion put in the box, so it is not looked up again.
+  const pickedText = useRef("");
   const holdRef = useRef(null);
   holdRef.current = hold;
 
@@ -333,11 +365,12 @@ export default function BookingFlow() {
     setBusy(true);
     setNotice(null);
     setFailure(null);
-    setSuggestions([]);
+    suggestRound.current += 1;
+    setSuggestions({ exact: null, streets: [] });
+    setSuggestOpen(false);
     try {
       const token = await turnstileToken(turnstileBox.current).catch(() => "");
-      const answer = await api.checkArea({ address: text, placeId: choice?.placeId || "", turnstileToken: token });
-      endPlacesSession();
+      const answer = await api.checkArea({ address: text, turnstileToken: token });
       if (answer.inside) {
         setArea({ areaToken: answer.areaToken, address: answer.address });
         track("area_inside");
@@ -354,12 +387,54 @@ export default function BookingFlow() {
     }
   }
 
-  // Suggestions as the customer types (Google Places only).
+  // Address suggestions as the customer types: the exact address (Census) and
+  // street names (OpenStreetMap), both free, through the booking API.
   useEffect(() => {
-    if (!placesEnabled() || step !== "address") return undefined;
-    const handle = setTimeout(async () => setSuggestions(await suggestAddresses(addressText)), 250);
+    const query = addressText.trim();
+    if (step !== "address" || query.length < 4 || query === pickedText.current) {
+      if (query.length < 4) setSuggestions({ exact: null, streets: [] });
+      return undefined;
+    }
+    const round = ++suggestRound.current;
+    const handle = setTimeout(async () => {
+      try {
+        const found = await api.suggest(query);
+        if (suggestRound.current === round) setSuggestions({ exact: found.exact || null, streets: found.streets || [] });
+      } catch {
+        // Suggestions are only a typing aid; the typed address still works.
+      }
+    }, 400);
     return () => clearTimeout(handle);
   }, [addressText, step]);
+
+  function pickExact(match) {
+    pickedText.current = match.address;
+    setAddressText(match.address);
+    submitAddress({ text: match.address });
+  }
+
+  function pickStreet(street) {
+    pickedText.current = street.label;
+    setAddressText(street.label);
+    if (street.hasNumber) {
+      submitAddress({ text: street.label });
+      return;
+    }
+    // A street with no house number cannot be placed: ask for the number.
+    suggestRound.current += 1;
+    setSuggestions({ exact: null, streets: [] });
+    setNotice({ tone: "warn", text: t.addNumber });
+    requestAnimationFrame(() => {
+      addressInput.current?.focus();
+      addressInput.current?.setSelectionRange(0, 0);
+    });
+  }
+
+  function chooseService(id) {
+    setService(id);
+    if (!DEVICE_IDS[SERVICES[id].devices].includes(consoleId)) setConsoleId("");
+    requestAnimationFrame(() => deviceRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }));
+  }
 
   async function openDays() {
     go("day");
@@ -428,7 +503,7 @@ export default function BookingFlow() {
           email: form.email.trim(),
           service,
           console: consoleId,
-          symptom: service === "cleaning" ? symptom : "",
+          issue: SERVICES[service]?.describe ? issue.trim() : "",
           notes: form.notes.trim(),
           smsConsent: form.smsConsent,
           turnstileToken: token,
@@ -449,6 +524,9 @@ export default function BookingFlow() {
         go("time");
         if (error.body.slots) setSlots(error.body.slots);
         else loadSlots(date, { keepNotice: true });
+      } else if (error instanceof ApiError && ["issue_required", "invalid_console", "invalid_service"].includes(error.code)) {
+        setNotice({ tone: "error", text: t.errors[error.code] || t.errors.generic });
+        go("service");
       } else if (error instanceof ApiError && ["invalid_name", "invalid_phone", "invalid_email"].includes(error.code)) {
         setFieldErrors({ [error.code.replace("invalid_", "")]: t.errors[error.code] });
         go("details");
@@ -586,30 +664,61 @@ export default function BookingFlow() {
               <Field label={t.addressLabel}>
                 <div className="relative">
                   <input
+                    ref={addressInput}
                     className={inputClass}
                     type="text"
                     inputMode="text"
-                    autoComplete="street-address"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    spellCheck={false}
+                    role="combobox"
+                    aria-expanded={suggestOpen && Boolean(suggestions.exact || suggestions.streets.length)}
+                    aria-controls="address-suggestions"
+                    aria-autocomplete="list"
                     placeholder={t.addressPlaceholder}
                     value={addressText}
                     maxLength={200}
-                    onChange={(event) => setAddressText(event.target.value)}
+                    onChange={(event) => {
+                      pickedText.current = "";
+                      setAddressText(event.target.value);
+                      setSuggestOpen(true);
+                    }}
+                    onFocus={() => setSuggestOpen(true)}
+                    // Let a tap on a suggestion land before the list goes away.
+                    onBlur={() => setTimeout(() => setSuggestOpen(false), 150)}
                     aria-describedby="address-hint"
                   />
-                  {suggestions.length > 0 && (
-                    <ul className="absolute z-30 left-0 right-0 mt-1 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-xl overflow-hidden">
-                      {suggestions.map((s) => (
-                        <li key={s.placeId}>
+                  {suggestOpen && !busy && (suggestions.exact || suggestions.streets.length > 0) && (
+                    <ul id="address-suggestions" role="listbox" className="absolute z-30 left-0 right-0 mt-1 max-h-80 overflow-auto rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-xl p-1">
+                      {suggestions.exact && (
+                        <li role="option" aria-selected="false">
                           <button
                             type="button"
-                            onClick={() => {
-                              setAddressText(s.text);
-                              submitAddress(s);
-                            }}
-                            className="w-full text-left px-4 py-3 text-sm text-text-main dark:text-white hover:bg-slate-50 dark:hover:bg-slate-700 flex items-start gap-2"
+                            onPointerDown={(event) => event.preventDefault()}
+                            onClick={() => pickExact(suggestions.exact)}
+                            className="w-full text-left rounded-lg px-3 py-3 hover:bg-slate-50 dark:hover:bg-slate-700 flex items-start gap-2.5"
                           >
-                            <MapPin className="w-4 h-4 mt-0.5 text-slate-400 shrink-0" />
-                            {s.text}
+                            <BadgeCheck className="w-5 h-5 mt-0.5 text-primary shrink-0" />
+                            <span className="min-w-0">
+                              <span className="block truncate text-sm font-bold text-text-main dark:text-white">{suggestions.exact.line1}</span>
+                              <span className="block truncate text-xs text-text-muted dark:text-slate-400">{suggestions.exact.line2}</span>
+                            </span>
+                          </button>
+                        </li>
+                      )}
+                      {suggestions.streets.map((street) => (
+                        <li key={street.label} role="option" aria-selected="false">
+                          <button
+                            type="button"
+                            onPointerDown={(event) => event.preventDefault()}
+                            onClick={() => pickStreet(street)}
+                            className="w-full text-left rounded-lg px-3 py-3 hover:bg-slate-50 dark:hover:bg-slate-700 flex items-start gap-2.5"
+                          >
+                            <MapPin className="w-5 h-5 mt-0.5 text-slate-400 shrink-0" />
+                            <span className="min-w-0">
+                              <span className="block truncate text-sm font-semibold text-text-main dark:text-white">{street.line1}</span>
+                              <span className="block truncate text-xs text-text-muted dark:text-slate-400">{street.line2}</span>
+                            </span>
                           </button>
                         </li>
                       ))}
@@ -661,18 +770,10 @@ export default function BookingFlow() {
               <h1 className="text-2xl font-extrabold text-text-main dark:text-white mb-4">{t.serviceTitle}</h1>
               <div className="space-y-2.5">
                 {SERVICE_IDS.map((id) => {
-                  const Icon = SERVICE_ICONS[id];
+                  const Icon = serviceIcon(id);
                   const price = servicePrice(id);
                   return (
-                    <Choice
-                      key={id}
-                      selected={service === id}
-                      onClick={() => {
-                        setService(id);
-                        if (id !== "cleaning") setSymptom("");
-                      }}
-                      className="w-full p-4 flex items-center gap-3"
-                    >
+                    <Choice key={id} selected={service === id} onClick={() => chooseService(id)} className="w-full p-4 flex items-center gap-3">
                       <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
                         <Icon className="w-5 h-5" />
                       </div>
@@ -698,32 +799,32 @@ export default function BookingFlow() {
               </div>
             </div>
 
-            {service === "cleaning" && (
-              <div>
-                <h2 className="text-lg font-bold text-text-main dark:text-white">{t.symptomTitle}</h2>
-                <p className="text-sm text-text-muted dark:text-slate-400 mb-3">{t.symptomHint}</p>
+            {service && (
+              <div ref={deviceRef} className="scroll-mt-24">
+                <h2 className="text-lg font-bold text-text-main dark:text-white mb-3">{t.deviceTitle[SERVICES[service].devices]}</h2>
                 <div className="grid grid-cols-2 gap-2.5">
-                  {SYMPTOM_IDS.map((id) => (
-                    <Choice key={id} selected={symptom === id} onClick={() => setSymptom(id)} className="p-3.5 font-semibold text-sm text-text-main dark:text-white">
-                      {t.symptoms[id]}
+                  {DEVICE_IDS[SERVICES[service].devices].map((id) => (
+                    <Choice key={id} selected={consoleId === id} onClick={() => setConsoleId(id)} className="p-3.5 font-semibold text-sm text-text-main dark:text-white">
+                      {deviceLabel(t, id)}
                     </Choice>
                   ))}
                 </div>
               </div>
             )}
 
-            <div>
-              <h2 className="text-lg font-bold text-text-main dark:text-white mb-3">{t.consoleTitle}</h2>
-              <div className="grid grid-cols-2 gap-2.5">
-                {CONSOLE_IDS.map((id) => (
-                  <Choice key={id} selected={consoleId === id} onClick={() => setConsoleId(id)} className="p-3.5 font-semibold text-sm text-text-main dark:text-white">
-                    {t.consoles[id]}
-                  </Choice>
-                ))}
-              </div>
-            </div>
+            {service && SERVICES[service].describe && (
+              <Field label={t.issueTitle}>
+                <textarea
+                  className={`${inputClass} h-28 py-3 resize-none`}
+                  maxLength={300}
+                  placeholder={t.issuePlaceholder}
+                  value={issue}
+                  onChange={(event) => setIssue(event.target.value)}
+                />
+              </Field>
+            )}
 
-            <PrimaryButton disabled={!service || !consoleId || (service === "cleaning" && !symptom)} onClick={openDays}>
+            <PrimaryButton disabled={!service || !consoleId || (SERVICES[service]?.describe && issue.trim().length < 3)} onClick={openDays}>
               {t.continue}
             </PrimaryButton>
           </section>
@@ -737,6 +838,11 @@ export default function BookingFlow() {
                 {Array.from({ length: 6 }, (_, i) => (
                   <div key={i} className="h-[74px] rounded-xl bg-slate-100 dark:bg-slate-800 animate-pulse" />
                 ))}
+              </div>
+            ) : days.length === 0 && !failure ? (
+              <div className="space-y-4">
+                <Notice>{t.noDays}</Notice>
+                <TextButton t={t} bookingId="" />
               </div>
             ) : (
               <div className="grid grid-cols-2 gap-2.5">
@@ -818,7 +924,7 @@ export default function BookingFlow() {
                 <input type="checkbox" className="mt-0.5 size-5 accent-primary shrink-0" checked={form.smsConsent} onChange={(e) => setForm({ ...form, smsConsent: e.target.checked })} />
                 <span className="text-sm text-text-main dark:text-slate-200">{t.smsConsent}</span>
               </label>
-              <SummaryCard t={t} lang={lang} area={area} service={service} consoleId={consoleId} symptom={symptom} start={hold?.start} />
+              <SummaryCard t={t} lang={lang} area={area} service={service} consoleId={consoleId} issue={issue} start={hold?.start} />
               <PrimaryButton type="submit">{t.review}</PrimaryButton>
             </form>
           </section>
@@ -830,7 +936,7 @@ export default function BookingFlow() {
               <h1 className="text-2xl font-extrabold text-text-main dark:text-white">{t.confirmTitle}</h1>
               <p className="text-text-muted dark:text-slate-400 mt-1">{t.confirmSub}</p>
             </div>
-            <SummaryCard t={t} lang={lang} area={area} service={service} consoleId={consoleId} symptom={symptom} start={hold?.start} onEdit={editFromSummary} />
+            <SummaryCard t={t} lang={lang} area={area} service={service} consoleId={consoleId} issue={issue} start={hold?.start} onEdit={editFromSummary} />
             <div className="rounded-2xl border border-slate-200 dark:border-slate-700 p-4 text-sm space-y-1">
               <div className="font-semibold text-text-main dark:text-white">{form.name}</div>
               <div className="text-text-muted dark:text-slate-400">{form.phone}</div>
@@ -869,7 +975,7 @@ export default function BookingFlow() {
               <div className="flex gap-3">
                 <span className="w-14 shrink-0 text-text-muted dark:text-slate-400">{t.what}</span>
                 <span className="font-semibold text-text-main dark:text-white">
-                  {t.services[service]?.label || result.service} · {t.consoles[consoleId] || result.console}
+                  {t.services[service]?.label || result.service} · {deviceLabel(t, consoleId) || result.console}
                 </span>
               </div>
               <div className="flex gap-3">
@@ -892,12 +998,10 @@ export default function BookingFlow() {
                 </a>
               </div>
             </div>
-            <p className="text-center text-sm text-text-muted dark:text-slate-400">
-              {t.questions}{" "}
-              <a href={`tel:${BUSINESS_PHONE}`} className="font-bold text-primary">
-                {BUSINESS_PHONE_PRETTY}
-              </a>
-            </p>
+            <div>
+              <p className="text-center text-sm text-text-muted dark:text-slate-400 mb-2">{t.questions}</p>
+              <TextButton t={t} bookingId={result.bookingId} />
+            </div>
             <Link href="/" className="block text-center text-primary font-semibold">
               we-fix-consoles.com
             </Link>
