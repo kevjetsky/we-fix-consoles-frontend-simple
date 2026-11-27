@@ -18,7 +18,7 @@ import {
   Wrench,
 } from "lucide-react";
 import { formatPrice, getService } from "@/lib/services";
-import { STRINGS, dayText, houstonToday, longDayText, windowText } from "@/lib/booking/i18n";
+import { STRINGS, dayText, houstonToday, longDateText, longDayText, monthDayText, windowText } from "@/lib/booking/i18n";
 import {
   ApiError,
   BOOKING_API,
@@ -179,12 +179,22 @@ function Field({ label, children, error }) {
 const inputClass =
   "w-full h-13 min-h-[52px] rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 text-base text-text-main dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary";
 
+// "from $99.99", or "Free diagnostic" for Other.
+function priceText(t, service) {
+  if (!service) return "";
+  if (SERVICES[service]?.describe) return t.freeDiagnostic;
+  const price = servicePrice(service);
+  return price ? t.priceFrom(formatPrice(price)) : "";
+}
+
 function SummaryCard({ t, lang, area, service, consoleId, issue, start, onEdit }) {
   const what = service ? `${t.services[service].label} · ${deviceLabel(t, consoleId)}${SERVICES[service]?.describe && issue.trim() ? `\n"${issue.trim()}"` : ""}` : "";
+  const price = priceText(t, service);
   const rows = [
     start && [t.when, `${longDayText(start, lang)}, ${windowText(start, endOf(start), t)}`, "time"],
     area && [t.where, area.address, "address"],
     service && [t.what, what, "service"],
+    price && [t.price, price, null],
   ].filter(Boolean);
   return (
     <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 p-4">
@@ -194,7 +204,7 @@ function SummaryCard({ t, lang, area, service, consoleId, issue, start, onEdit }
           <div key={label} className="flex items-start gap-3">
             <dt className="w-14 shrink-0 text-sm text-text-muted dark:text-slate-400">{label}</dt>
             <dd className="flex-1 text-sm font-semibold text-text-main dark:text-white whitespace-pre-line break-words">{value}</dd>
-            {onEdit && (
+            {onEdit && target && (
               <button type="button" onClick={() => onEdit(target)} className="text-sm font-semibold text-primary shrink-0">
                 {t.edit}
               </button>
@@ -219,6 +229,7 @@ export default function BookingFlow() {
   const [addressText, setAddressText] = useState("");
   const [suggestions, setSuggestions] = useState({ exact: null, streets: [] });
   const [suggestOpen, setSuggestOpen] = useState(false);
+  const [activeOption, setActiveOption] = useState(-1);
   const [area, setArea] = useState(null);
   const [service, setService] = useState("");
   const [consoleId, setConsoleId] = useState("");
@@ -243,6 +254,11 @@ export default function BookingFlow() {
   const pickedText = useRef("");
   const holdRef = useRef(null);
   holdRef.current = hold;
+  const areaRef = useRef(null);
+  areaRef.current = area;
+  // Set when the customer taps Edit on the confirm screen: once they have
+  // changed the service or the time, they go straight back to confirm.
+  const returnToConfirm = useRef(false);
 
   // ── setup ──
   useEffect(() => {
@@ -252,18 +268,23 @@ export default function BookingFlow() {
       setStep("disabled");
       return;
     }
+    // The address step shows right away. The status check (which also wakes
+    // the server) runs behind it and only takes over if booking is switched
+    // off; if the server can't be reached, the address check says so.
+    setStep("address");
+    try {
+      window.history.replaceState({ bookingStep: "address" }, "");
+    } catch {
+      // ignore
+    }
+    track("booking_start");
+    if (turnstileBox.current) prepareTurnstile(turnstileBox.current);
     api
       .status()
       .then((status) => {
-        if (!status.enabled) {
-          setStep("disabled");
-          return;
-        }
-        setStep("address");
-        track("booking_start");
-        if (turnstileBox.current) prepareTurnstile(turnstileBox.current);
+        if (!status.enabled) setStep((current) => (current === "address" ? "disabled" : current));
       })
-      .catch(() => setStep("disabled"));
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -305,6 +326,24 @@ export default function BookingFlow() {
   }, [hold]);
 
   const holdLeftMs = hold ? new Date(hold.expiresAt).getTime() - now : 0;
+  const holdLive = () => Boolean(holdRef.current) && new Date(holdRef.current.expiresAt).getTime() > Date.now();
+
+  // Lets go of the held time so other customers can take it now, not in 10 minutes.
+  const releaseHold = useCallback(() => {
+    const current = holdRef.current;
+    if (!current) return;
+    setHold(null);
+    const token = areaRef.current?.areaToken;
+    if (token) api.release({ areaToken: token, holdId: current.holdId }).catch(() => {});
+  }, []);
+
+  // Back at the address step, a held time is no longer wanted.
+  useEffect(() => {
+    if (step === "address") {
+      returnToConfirm.current = false;
+      releaseHold();
+    }
+  }, [step, releaseHold]);
 
   // ── errors ──
   const showFailure = useCallback(
@@ -407,6 +446,38 @@ export default function BookingFlow() {
     return () => clearTimeout(handle);
   }, [addressText, step]);
 
+  const options = useMemo(
+    () => [
+      ...(suggestions.exact ? [{ kind: "exact", item: suggestions.exact }] : []),
+      ...suggestions.streets.map((item) => ({ kind: "street", item })),
+    ],
+    [suggestions]
+  );
+  useEffect(() => setActiveOption(-1), [options]);
+
+  function pickOption(option) {
+    if (option.kind === "exact") pickExact(option.item);
+    else pickStreet(option.item);
+  }
+
+  // Arrow keys move through the suggestions, Enter picks, Escape closes.
+  function onAddressKey(event) {
+    if (!suggestOpen || options.length === 0) return;
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      setActiveOption((index) => (index + 1) % options.length);
+    } else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      setActiveOption((index) => (index <= 0 ? options.length - 1 : index - 1));
+    } else if (event.key === "Enter" && activeOption >= 0) {
+      event.preventDefault();
+      pickOption(options[activeOption]);
+    } else if (event.key === "Escape") {
+      setSuggestOpen(false);
+      setActiveOption(-1);
+    }
+  }
+
   function pickExact(match) {
     pickedText.current = match.address;
     setAddressText(match.address);
@@ -436,11 +507,23 @@ export default function BookingFlow() {
     requestAnimationFrame(() => deviceRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }));
   }
 
+  // Service picked: back to confirm when editing a booking in progress (the
+  // service does not change which times fit), otherwise on to the days.
+  function continueFromService() {
+    if (returnToConfirm.current && holdLive()) {
+      returnToConfirm.current = false;
+      go("confirm");
+      return;
+    }
+    returnToConfirm.current = false;
+    openDays();
+  }
+
   async function openDays() {
     go("day");
     setDays(null);
     try {
-      setDays(await api.days(area.areaToken));
+      setDays(await api.days(area.areaToken, holdRef.current?.holdId));
     } catch (error) {
       if (error instanceof ApiError && error.code === "area_token_invalid") {
         setArea(null);
@@ -459,6 +542,15 @@ export default function BookingFlow() {
     loadSlots(day.date);
   }
 
+  // The day chips on the times step: another day without going back.
+  function switchDay(day) {
+    if (day.date === date) return;
+    setDate(day.date);
+    setNotice(null);
+    track("day_selected", { date: day.date, free: day.free, from: "chips" });
+    loadSlots(day.date);
+  }
+
   async function pickSlot(slot) {
     setBusy(slot.start);
     setNotice(null);
@@ -469,7 +561,10 @@ export default function BookingFlow() {
       setNow(Date.now());
       setIdempotencyKey(uuid());
       track("slot_held", { start: held.start });
-      go("details");
+      const detailsDone = form.name.trim().length >= 2 && form.phone.replace(/\D/g, "").length === 10;
+      if (returnToConfirm.current && detailsDone) go("confirm");
+      else go("details");
+      returnToConfirm.current = false;
     } catch (error) {
       if (error instanceof ApiError && error.status === 409) {
         setNotice({ tone: "warn", text: t.slotTaken });
@@ -538,13 +633,24 @@ export default function BookingFlow() {
 
   function editFromSummary(target) {
     if (target === "address") {
-      setHold(null);
+      // The address step lets go of the held time.
       go("address");
-    } else if (target === "service") go("service");
-    else go("time");
+      return;
+    }
+    returnToConfirm.current = true;
+    if (target === "service") go("service");
+    else {
+      go("time");
+      loadSlots(date);
+    }
   }
 
   function back() {
+    if (returnToConfirm.current && holdLive() && (step === "service" || step === "time" || step === "day")) {
+      returnToConfirm.current = false;
+      go("confirm");
+      return;
+    }
     const index = STEPS.indexOf(step);
     if (step === "outside") go("address");
     else if (index > 0) go(STEPS[index - 1]);
@@ -557,6 +663,7 @@ export default function BookingFlow() {
     d.setUTCDate(d.getUTCDate() + 1);
     return d.toISOString().slice(0, 10);
   }, [today]);
+  const relativeDay = (dateString) => (dateString === today ? t.today : dateString === tomorrow ? t.tomorrow : "");
 
   const calendarDetails = result
     ? {
@@ -675,6 +782,8 @@ export default function BookingFlow() {
                     aria-expanded={suggestOpen && Boolean(suggestions.exact || suggestions.streets.length)}
                     aria-controls="address-suggestions"
                     aria-autocomplete="list"
+                    aria-activedescendant={activeOption >= 0 ? `address-option-${activeOption}` : undefined}
+                    onKeyDown={onAddressKey}
                     placeholder={t.addressPlaceholder}
                     value={addressText}
                     maxLength={200}
@@ -688,40 +797,30 @@ export default function BookingFlow() {
                     onBlur={() => setTimeout(() => setSuggestOpen(false), 150)}
                     aria-describedby="address-hint"
                   />
-                  {suggestOpen && !busy && (suggestions.exact || suggestions.streets.length > 0) && (
+                  {suggestOpen && !busy && options.length > 0 && (
                     <ul id="address-suggestions" role="listbox" className="absolute z-30 left-0 right-0 mt-1 max-h-80 overflow-auto rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-xl p-1">
-                      {suggestions.exact && (
-                        <li role="option" aria-selected="false">
-                          <button
-                            type="button"
-                            onPointerDown={(event) => event.preventDefault()}
-                            onClick={() => pickExact(suggestions.exact)}
-                            className="w-full text-left rounded-lg px-3 py-3 hover:bg-slate-50 dark:hover:bg-slate-700 flex items-start gap-2.5"
-                          >
-                            <BadgeCheck className="w-5 h-5 mt-0.5 text-primary shrink-0" />
-                            <span className="min-w-0">
-                              <span className="block truncate text-sm font-bold text-text-main dark:text-white">{suggestions.exact.line1}</span>
-                              <span className="block truncate text-xs text-text-muted dark:text-slate-400">{suggestions.exact.line2}</span>
-                            </span>
-                          </button>
-                        </li>
-                      )}
-                      {suggestions.streets.map((street) => (
-                        <li key={street.label} role="option" aria-selected="false">
-                          <button
-                            type="button"
-                            onPointerDown={(event) => event.preventDefault()}
-                            onClick={() => pickStreet(street)}
-                            className="w-full text-left rounded-lg px-3 py-3 hover:bg-slate-50 dark:hover:bg-slate-700 flex items-start gap-2.5"
-                          >
-                            <MapPin className="w-5 h-5 mt-0.5 text-slate-400 shrink-0" />
-                            <span className="min-w-0">
-                              <span className="block truncate text-sm font-semibold text-text-main dark:text-white">{street.line1}</span>
-                              <span className="block truncate text-xs text-text-muted dark:text-slate-400">{street.line2}</span>
-                            </span>
-                          </button>
-                        </li>
-                      ))}
+                      {options.map((option, index) => {
+                        const exact = option.kind === "exact";
+                        const active = index === activeOption;
+                        return (
+                          <li key={exact ? "exact" : option.item.label} id={`address-option-${index}`} role="option" aria-selected={active}>
+                            <button
+                              type="button"
+                              tabIndex={-1}
+                              onPointerDown={(event) => event.preventDefault()}
+                              onMouseEnter={() => setActiveOption(index)}
+                              onClick={() => pickOption(option)}
+                              className={`w-full text-left rounded-lg px-3 py-3 flex items-start gap-2.5 ${active ? "bg-slate-100 dark:bg-slate-700" : "hover:bg-slate-50 dark:hover:bg-slate-700"}`}
+                            >
+                              {exact ? <BadgeCheck className="w-5 h-5 mt-0.5 text-primary shrink-0" /> : <MapPin className="w-5 h-5 mt-0.5 text-slate-400 shrink-0" />}
+                              <span className="min-w-0">
+                                <span className={`block truncate text-sm text-text-main dark:text-white ${exact ? "font-bold" : "font-semibold"}`}>{option.item.line1}</span>
+                                <span className="block truncate text-xs text-text-muted dark:text-slate-400">{option.item.line2}</span>
+                              </span>
+                            </button>
+                          </li>
+                        );
+                      })}
                     </ul>
                   )}
                 </div>
@@ -767,6 +866,15 @@ export default function BookingFlow() {
         {step === "service" && (
           <section className="space-y-7">
             <div>
+              {area && (
+                <div className="mb-5 flex items-center gap-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 px-3 py-2.5 text-sm">
+                  <MapPin className="w-4 h-4 text-primary shrink-0" />
+                  <span className="flex-1 min-w-0 truncate font-semibold text-text-main dark:text-white">{area.address}</span>
+                  <button type="button" onClick={() => go("address")} className="font-semibold text-primary shrink-0">
+                    {t.edit}
+                  </button>
+                </div>
+              )}
               <h1 className="text-2xl font-extrabold text-text-main dark:text-white mb-4">{t.serviceTitle}</h1>
               <div className="space-y-2.5">
                 {SERVICE_IDS.map((id) => {
@@ -824,8 +932,8 @@ export default function BookingFlow() {
               </Field>
             )}
 
-            <PrimaryButton disabled={!service || !consoleId || (SERVICES[service]?.describe && issue.trim().length < 3)} onClick={openDays}>
-              {t.continue}
+            <PrimaryButton disabled={!service || !consoleId || (SERVICES[service]?.describe && issue.trim().length < 3)} onClick={continueFromService}>
+              {returnToConfirm.current && hold ? t.saveChanges : t.continue}
             </PrimaryButton>
           </section>
         )}
@@ -835,6 +943,10 @@ export default function BookingFlow() {
             <h1 className="text-2xl font-extrabold text-text-main dark:text-white mb-4">{t.dayTitle}</h1>
             {days === null ? (
               <div className="grid grid-cols-2 gap-2.5">
+                <p className="col-span-2 flex items-center gap-2 text-sm text-text-muted dark:text-slate-400 mb-1">
+                  <Loader2 className="w-4 h-4 animate-spin text-primary" />
+                  {t.checkingRoute}
+                </p>
                 {Array.from({ length: 6 }, (_, i) => (
                   <div key={i} className="h-[74px] rounded-xl bg-slate-100 dark:bg-slate-800 animate-pulse" />
                 ))}
@@ -847,11 +959,14 @@ export default function BookingFlow() {
             ) : (
               <div className="grid grid-cols-2 gap-2.5">
                 {days.map((day) => {
-                  const label = day.date === today ? t.today : day.date === tomorrow ? t.tomorrow : dayText(day.date, lang);
+                  const special = relativeDay(day.date);
                   return (
                     <Choice key={day.date} selected={date === day.date} disabled={day.free === 0} onClick={() => pickDay(day)} className="p-4">
-                      <div className="font-bold text-text-main dark:text-white">{label}</div>
-                      <div className={`text-sm ${day.free === 0 ? "text-slate-400" : "text-green-600 dark:text-green-400"}`}>{day.free === 0 ? t.full : t.openCount(day.free)}</div>
+                      <div className="font-bold text-text-main dark:text-white">{special || dayText(day.date, lang)}</div>
+                      <div className="text-sm">
+                        {special && <span className="text-text-muted dark:text-slate-400">{monthDayText(day.date, lang)} · </span>}
+                        <span className={day.free === 0 ? "text-slate-400" : "text-green-600 dark:text-green-400"}>{day.free === 0 ? t.full : t.openCount(day.free)}</span>
+                      </div>
                     </Choice>
                   );
                 })}
@@ -864,7 +979,34 @@ export default function BookingFlow() {
           <section>
             <h1 className="text-2xl font-extrabold text-text-main dark:text-white">{t.timeTitle}</h1>
             <p className="text-text-muted dark:text-slate-400 mb-1">{t.timeSub}</p>
-            {date && <p className="text-sm font-semibold text-primary mb-4">{date === today ? t.today : date === tomorrow ? t.tomorrow : dayText(date, lang)}</p>}
+            {days && days.length > 1 && (
+              <div className="-mx-4 px-4 mt-3 flex gap-2 overflow-x-auto scrollbar-hide">
+                {days.map((day) => {
+                  const selected = day.date === date;
+                  return (
+                    <button
+                      key={day.date}
+                      type="button"
+                      onClick={() => switchDay(day)}
+                      aria-pressed={selected}
+                      className={`shrink-0 h-10 px-3.5 rounded-full border text-sm font-semibold transition-colors ${
+                        selected
+                          ? "border-primary bg-primary text-white"
+                          : "border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-text-main dark:text-white hover:border-primary/50"
+                      }`}
+                    >
+                      {relativeDay(day.date) || dayText(day.date, lang)}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+            {date && (
+              <p className="text-sm font-semibold text-primary mt-3 mb-4">
+                {relativeDay(date) ? `${relativeDay(date)} · ` : ""}
+                {longDateText(date, lang)}
+              </p>
+            )}
             {slots === null ? (
               <div className="space-y-2.5">
                 {Array.from({ length: 4 }, (_, i) => (
@@ -978,6 +1120,12 @@ export default function BookingFlow() {
                   {t.services[service]?.label || result.service} · {deviceLabel(t, consoleId) || result.console}
                 </span>
               </div>
+              {priceText(t, service) && (
+                <div className="flex gap-3">
+                  <span className="w-14 shrink-0 text-text-muted dark:text-slate-400">{t.price}</span>
+                  <span className="font-semibold text-text-main dark:text-white">{priceText(t, service)}</span>
+                </div>
+              )}
               <div className="flex gap-3">
                 <span className="w-14 shrink-0 text-text-muted dark:text-slate-400">{t.bookingId}</span>
                 <span className="font-mono font-semibold text-text-main dark:text-white">{result.bookingId}</span>
